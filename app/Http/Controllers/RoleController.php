@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\GameRepository;
+use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class GameController extends Controller
+class RoleController extends Controller
 {
-
-    private GameRepository $repo;
+    private RoleRepository $repo;
 
     public function __construct()
     {
         $this->middleware('auth:sanctum')->except('');
-        $this->repo = new GameRepository();
+        $this->repo = new RoleRepository();
     }
 
     /**
-
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        if (Auth::user()->can('view_games')) {
+        if (Auth::user()->can('view_roles')) {
+
             return $this->repo->all();
         }
         return abort(403);
@@ -40,7 +39,8 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->can('store_games')) {
+        if (Auth::user()->can('store_roles')) {
+
             $array = $request->all();
             return $this->repo->store($array);
         }
@@ -55,7 +55,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        if (Auth::user()->can('view_games')) {
+        if (Auth::user()->can('view_roles')) {
 
             return $this->repo->show($id);
         }
@@ -71,7 +71,7 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->can('udpate_games')) {
+        if (Auth::user()->can('update_roles')) {
 
             $array = $request->all();
             return $this->repo->update($array, $id);
@@ -87,27 +87,10 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->can('delete_games')) {
+        if (Auth::user()->can('delete_roles')) {
 
             return $this->repo->delete($id);
         }
         return abort(403);
-    }
-
-
-    /**
-     * Function that return next match for all teams
-     */
-    public function next()
-    {
-        return $this->repo->next();
-    }
-
-    /**
-     * Function that return last match for all teams
-     */
-    public function last()
-    {
-        return $this->repo->last();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -12,6 +13,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:sanctum')->except('');
         $this->repo = new CategoryRepository();
     }
 
@@ -22,7 +24,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return $this->repo->all();
+        if (Auth::user()->can('view_categories')) {
+
+            return $this->repo->all();
+        }
+        return abort(403);
     }
 
 
@@ -34,8 +40,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $array = $request->all();
-        return $this->repo->store($array);
+        if (Auth::user()->can('store_categories')) {
+
+            $array = $request->all();
+            return $this->repo->store($array);
+        }
+        return abort(403);
     }
 
     /**
@@ -46,7 +56,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return $this->repo->show($id);
+        if (Auth::user()->can('view_categories')) {
+
+            return $this->repo->show($id);
+        }
+        return abort(403);
     }
 
     /**
@@ -58,8 +72,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $array = $request->all();
-        return $this->repo->update($array, $id);
+        if (Auth::user()->can('update_categories')) {
+
+            $array = $request->all();
+            return $this->repo->update($array, $id);
+        }
+        return abort(403);
     }
 
     /**
@@ -70,6 +88,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repo->delete($id);
+        if (Auth::user()->can('delete_categories')) {
+
+            return $this->repo->delete($id);
+        }
+        return abort(403);
     }
 }

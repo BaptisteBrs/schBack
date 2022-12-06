@@ -6,6 +6,7 @@ use App\Repositories\ArticleTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Upload;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleTypeController extends Controller
 {
@@ -15,6 +16,7 @@ class ArticleTypeController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:sanctum')->except('');
         $this->repo = new ArticleTypeRepository();
     }
 
@@ -25,7 +27,10 @@ class ArticleTypeController extends Controller
      */
     public function index()
     {
-        return $this->repo->all();
+        if (Auth::user()->can('view_article_types')) {
+            return $this->repo->all();
+        }
+        return abort(403);
     }
 
 
@@ -37,12 +42,16 @@ class ArticleTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $array = $request->all();
-        if ($request->file('picture') !== null) {
+        if (Auth::user()->can('store_article_types')) {
 
-            $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
+            $array = $request->all();
+            if ($request->file('picture') !== null) {
+
+                $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
+            }
+            return $this->repo->store($array);
         }
-        return $this->repo->store($array);
+        return abort(403);
     }
 
     /**
@@ -53,7 +62,11 @@ class ArticleTypeController extends Controller
      */
     public function show($id)
     {
-        return $this->repo->show($id);
+        if (Auth::user()->can('view_article_types')) {
+
+            return $this->repo->show($id);
+        }
+        return abort(403);
     }
 
     /**
@@ -65,11 +78,15 @@ class ArticleTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $array = $request->all();
-        if ($request->file('picture') !== null) {
-            $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
+        if (Auth::user()->can('update_article_types')) {
+
+            $array = $request->all();
+            if ($request->file('picture') !== null) {
+                $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
+            }
+            return $this->repo->update($array, $id);
         }
-        return $this->repo->update($array, $id);
+        return abort(403);
     }
 
     /**
@@ -80,6 +97,9 @@ class ArticleTypeController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repo->delete($id);
+        if (Auth::user()->can('delete_article_types')) {
+            return $this->repo->delete($id);
+        }
+        return abort(403);
     }
 }

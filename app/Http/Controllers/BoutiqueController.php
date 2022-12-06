@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\BoutiqueRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 
 
 class BoutiqueController extends Controller
@@ -16,6 +17,7 @@ class BoutiqueController extends Controller
     public function __construct()
     {
         $this->repo = new BoutiqueRepository();
+        $this->middleware('auth:sanctum')->except('');
     }
 
     /**
@@ -37,10 +39,14 @@ class BoutiqueController extends Controller
      */
     public function store(Request $request)
     {
-        $array = $request->all();
+        if (Auth::user()->can('store_boutiques')) {
 
-        $array['picture_name'] = $this->upload($request->file('picture'), $this->folder);
-        return $this->repo->store($array);
+            $array = $request->all();
+
+            $array['picture_name'] = $this->upload($request->file('picture'), $this->folder);
+            return $this->repo->store($array);
+        }
+        return abort(403);
     }
 
     /**
@@ -51,7 +57,11 @@ class BoutiqueController extends Controller
      */
     public function show($id)
     {
-        return $this->repo->show($id);
+        if (Auth::user()->can('view_boutiques')) {
+
+            return $this->repo->show($id);
+        }
+        return abort(403);
     }
 
     /**
@@ -63,8 +73,12 @@ class BoutiqueController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $array = $request->all();
-        return $this->repo->update($array, $id);
+        if (Auth::user()->can('update_boutiques')) {
+
+            $array = $request->all();
+            return $this->repo->update($array, $id);
+        }
+        return abort(403);
     }
 
     /**
@@ -75,7 +89,11 @@ class BoutiqueController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repo->delete($id);
+        if (Auth::user()->can('delete_boutiques')) {
+
+            return $this->repo->delete($id);
+        }
+        return abort(403);
     }
 
     public function upload(UploadedFile $file, string $folder)

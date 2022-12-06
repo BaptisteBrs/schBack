@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\ArticleRepository;
 use Illuminate\Http\Request;
 use Upload;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -13,6 +14,7 @@ class ArticleController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:sanctum')->except('');
         $this->repo = new ArticleRepository();
     }
 
@@ -23,7 +25,11 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return $this->repo->all();
+        if (Auth::user()->can('view_articles')) {
+
+            return $this->repo->all();
+        }
+        return abort(403);
     }
 
 
@@ -35,8 +41,12 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $array = $request->all();
-        return $this->repo->store($array);
+        if (Auth::user()->can('store_articles')) {
+
+            $array = $request->all();
+            return $this->repo->store($array);
+        }
+        return abort(403);
     }
 
     /**
@@ -47,7 +57,11 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return $this->repo->show($id);
+        if (Auth::user()->can('view_articles')) {
+
+            return $this->repo->show($id);
+        }
+        return abort(403);
     }
 
     /**
@@ -59,12 +73,15 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $array = $request->all();
-        if ($request->file('picture') !== null) {
+        if (Auth::user()->can('udpate_articles')) {
 
-            $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
+            $array = $request->all();
+            if ($request->file('picture') !== null) {
+                $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
+            }
+            return $this->repo->update($array, $id);
         }
-        return $this->repo->update($array, $id);
+        return abort(403);
     }
 
     /**
@@ -75,6 +92,9 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repo->delete($id);
+        if (Auth::user()->can('delete_articles')) {
+            return $this->repo->delete($id);
+        }
+        return abort(403);
     }
 }

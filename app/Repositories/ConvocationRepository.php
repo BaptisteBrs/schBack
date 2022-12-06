@@ -20,11 +20,7 @@ class ConvocationRepository
         return Convocation::with('players', 'game')->get();
     }
 
-    public function last()
-    {
-        return Convocation::with('players', 'game')->get();
-    }
-
+    
     public function save(Convocation $convocation, array $array): Convocation
     {
         $convocation->appointment = $array['appointment'];

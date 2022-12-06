@@ -81,7 +81,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRolesAndAbilities;
     use SoftDeletes;
-    use HasUuids;
     protected $table = 'users';
     public $timestamps = true;
 
@@ -126,5 +125,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Category::class, 'player_category');
     }
-    
 }

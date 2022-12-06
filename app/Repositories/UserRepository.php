@@ -24,6 +24,8 @@ class UserRepository
     public function save(User $user, array $array): User
     {
         $user->name = $array['name'];
+        $user->name = $array['firstname'];
+        $user->login = $array['name'];
         $user->email = $array['email'];
         $user->phone = array_key_exists('phone', $array) ? $array['phone'] : null;
         $user->is_actif = array_key_exists('is_actif', $array) ? $array['is_actif'] : false;
