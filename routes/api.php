@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
+use App\Models\Partenaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,3 +49,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::post('public/login', [UserController::class, 'login'])->name('login');
 Route::get('public/last', [GameController::class, 'last'])->name('last');
 Route::get('public/next', [GameController::class, 'next'])->name('next');
+Route::get('public/partenaires', [PartenaireController::class, 'index'])->name('partenaire');

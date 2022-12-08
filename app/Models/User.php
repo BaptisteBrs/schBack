@@ -76,6 +76,10 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereIs($role)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAll($role)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereIsNot($role)
+ * @property string $firstname
+ * @property string $login
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLogin($value)
  */
 class User extends Authenticatable
 {

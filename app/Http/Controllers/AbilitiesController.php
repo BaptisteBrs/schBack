@@ -23,6 +23,7 @@ class AbilitiesController extends Controller
      */
     public function index()
     {
+        
         if (Auth::user()->can('view_abilities')) {
 
             return $this->repo->all();

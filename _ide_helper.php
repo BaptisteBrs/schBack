@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.39.0.
+ * Generated for Laravel 9.43.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2016,7 +2016,7 @@
          * Attempt to authenticate a user with credentials and additional callbacks.
          *
          * @param array $credentials
-         * @param array|callable $callbacks
+         * @param array|callable|null $callbacks
          * @param bool $remember
          * @return bool 
          * @static 
@@ -9213,7 +9213,7 @@
      *
      * @method static mixed reset(array $credentials, \Closure $callback)
      * @method static string sendResetLink(array $credentials, \Closure $callback = null)
-     * @method static \Illuminate\Contracts\Auth\CanResetPassword getUser(array $credentials)
+     * @method static \Illuminate\Contracts\Auth\CanResetPassword|null getUser(array $credentials)
      * @method static string createToken(\Illuminate\Contracts\Auth\CanResetPassword $user)
      * @method static void deleteToken(\Illuminate\Contracts\Auth\CanResetPassword $user)
      * @method static bool tokenExists(\Illuminate\Contracts\Auth\CanResetPassword $user, string $token)
@@ -10921,6 +10921,7 @@
                     /**
          * Gets the list of trusted proxies.
          *
+         * @return string[] 
          * @static 
          */ 
         public static function getTrustedProxies()
@@ -10952,6 +10953,7 @@
                     /**
          * Gets the list of trusted host patterns.
          *
+         * @return string[] 
          * @static 
          */ 
         public static function getTrustedHosts()
@@ -11366,6 +11368,7 @@
                     /**
          * Gets the mime types associated with the format.
          *
+         * @return string[] 
          * @static 
          */ 
         public static function getMimeTypes($format)
@@ -11385,7 +11388,7 @@
                     /**
          * Associates a format with mime types.
          *
-         * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
+         * @param string|string[] $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
          * @static 
          */ 
         public static function setFormat($format, $mimeTypes)
@@ -11421,14 +11424,26 @@
                         return $instance->setRequestFormat($format);
         }
                     /**
-         * Gets the format associated with the request.
+         * Gets the usual name of the format associated with the request's media type (provided in the Content-Type header).
          *
+         * @deprecated since Symfony 6.2, use getContentTypeFormat() instead
          * @static 
          */ 
         public static function getContentType()
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
                         return $instance->getContentType();
+        }
+                    /**
+         * Gets the usual name of the format associated with the request's media type (provided in the Content-Type header).
+         *
+         * @see Request::$formats
+         * @static 
+         */ 
+        public static function getContentTypeFormat()
+        {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->getContentTypeFormat();
         }
                     /**
          * Sets the default locale.
@@ -11534,6 +11549,7 @@
          *
          * @param bool $asResource If true, a resource will be returned
          * @return string|resource 
+         * @psalm-return ($asResource is true ? resource : string)
          * @static 
          */ 
         public static function getContent($asResource = false)
@@ -11590,6 +11606,7 @@
                     /**
          * Gets a list of languages acceptable by the client browser ordered in the user browser preferences.
          *
+         * @return string[] 
          * @static 
          */ 
         public static function getLanguages()
@@ -11600,6 +11617,7 @@
                     /**
          * Gets a list of charsets acceptable by the client browser in preferable order.
          *
+         * @return string[] 
          * @static 
          */ 
         public static function getCharsets()
@@ -11610,6 +11628,7 @@
                     /**
          * Gets a list of encodings acceptable by the client browser in preferable order.
          *
+         * @return string[] 
          * @static 
          */ 
         public static function getEncodings()
@@ -11620,6 +11639,7 @@
                     /**
          * Gets a list of content types acceptable by the client browser in preferable order.
          *
+         * @return string[] 
          * @static 
          */ 
         public static function getAcceptableContentTypes()
@@ -12032,6 +12052,20 @@
         {
                         /** @var \Illuminate\Http\Request $instance */
                         return $instance->missing($key);
+        }
+                    /**
+         * Apply the callback if the request is missing the given input item key.
+         *
+         * @param string $key
+         * @param callable $callback
+         * @param callable|null $default
+         * @return $this|mixed 
+         * @static 
+         */ 
+        public static function whenMissing($key, $callback, $default = null)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->whenMissing($key, $callback, $default);
         }
                     /**
          * Get the keys for all of the input and files.
@@ -12907,6 +12941,60 @@
         {
                         /** @var \Illuminate\Routing\Router $instance */
                         return $instance->apiResource($name, $controller, $options);
+        }
+                    /**
+         * Register an array of singleton resource controllers.
+         *
+         * @param array $singletons
+         * @param array $options
+         * @return void 
+         * @static 
+         */ 
+        public static function singletons($singletons, $options = [])
+        {
+                        /** @var \Illuminate\Routing\Router $instance */
+                        $instance->singletons($singletons, $options);
+        }
+                    /**
+         * Route a singleton resource to a controller.
+         *
+         * @param string $name
+         * @param string $controller
+         * @param array $options
+         * @return \Illuminate\Routing\PendingSingletonResourceRegistration 
+         * @static 
+         */ 
+        public static function singleton($name, $controller, $options = [])
+        {
+                        /** @var \Illuminate\Routing\Router $instance */
+                        return $instance->singleton($name, $controller, $options);
+        }
+                    /**
+         * Register an array of API singleton resource controllers.
+         *
+         * @param array $singletons
+         * @param array $options
+         * @return void 
+         * @static 
+         */ 
+        public static function apiSingletons($singletons, $options = [])
+        {
+                        /** @var \Illuminate\Routing\Router $instance */
+                        $instance->apiSingletons($singletons, $options);
+        }
+                    /**
+         * Route an API singleton resource to a controller.
+         *
+         * @param string $name
+         * @param string $controller
+         * @param array $options
+         * @return \Illuminate\Routing\PendingSingletonResourceRegistration 
+         * @static 
+         */ 
+        public static function apiSingleton($name, $controller, $options = [])
+        {
+                        /** @var \Illuminate\Routing\Router $instance */
+                        return $instance->apiSingleton($name, $controller, $options);
         }
                     /**
          * Create a route group with shared attributes.
@@ -17177,6 +17265,18 @@
                         return $instance->withEntryPoints($entryPoints);
         }
                     /**
+         * Set the filename for the manifest file.
+         *
+         * @param string $filename
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function useManifestFilename($filename)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->useManifestFilename($filename);
+        }
+                    /**
          * Get the Vite "hot" file path.
          *
          * @return string 
@@ -17283,6 +17383,17 @@
                         return $instance->manifestHash($buildDirectory);
         }
                     /**
+         * Determine if the HMR server is running.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function isRunningHot()
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->isRunningHot();
+        }
+                    /**
          * Get the Vite tag content as a string of HTML.
          *
          * @return string 
@@ -17369,7 +17480,517 @@
      
 }
 
-        namespace Spatie\LaravelIgnition\Facades { 
+        namespace Silber\Bouncer { 
+            /**
+     * 
+     *
+     */ 
+        class BouncerFacade {
+                    /**
+         * Create a new Bouncer instance.
+         *
+         * @param mixed $user
+         * @return static 
+         * @static 
+         */ 
+        public static function create($user = null)
+        {
+                        return \Silber\Bouncer\Bouncer::create($user);
+        }
+                    /**
+         * Create a bouncer factory instance.
+         *
+         * @param mixed $user
+         * @return \Silber\Bouncer\Factory 
+         * @static 
+         */ 
+        public static function make($user = null)
+        {
+                        return \Silber\Bouncer\Bouncer::make($user);
+        }
+                    /**
+         * Start a chain, to allow the given authority an ability.
+         *
+         * @param \Illuminate\Database\Eloquent\Model|string $authority
+         * @return \Silber\Bouncer\Conductors\GivesAbilities 
+         * @static 
+         */ 
+        public static function allow($authority)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->allow($authority);
+        }
+                    /**
+         * Start a chain, to allow everyone an ability.
+         *
+         * @return \Silber\Bouncer\Conductors\GivesAbilities 
+         * @static 
+         */ 
+        public static function allowEveryone()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->allowEveryone();
+        }
+                    /**
+         * Start a chain, to disallow the given authority an ability.
+         *
+         * @param \Illuminate\Database\Eloquent\Model|string $authority
+         * @return \Silber\Bouncer\Conductors\RemovesAbilities 
+         * @static 
+         */ 
+        public static function disallow($authority)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->disallow($authority);
+        }
+                    /**
+         * Start a chain, to disallow everyone the an ability.
+         *
+         * @return \Silber\Bouncer\Conductors\RemovesAbilities 
+         * @static 
+         */ 
+        public static function disallowEveryone()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->disallowEveryone();
+        }
+                    /**
+         * Start a chain, to forbid the given authority an ability.
+         *
+         * @param \Illuminate\Database\Eloquent\Model|string $authority
+         * @return \Silber\Bouncer\Conductors\GivesAbilities 
+         * @static 
+         */ 
+        public static function forbid($authority)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->forbid($authority);
+        }
+                    /**
+         * Start a chain, to forbid everyone an ability.
+         *
+         * @return \Silber\Bouncer\Conductors\GivesAbilities 
+         * @static 
+         */ 
+        public static function forbidEveryone()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->forbidEveryone();
+        }
+                    /**
+         * Start a chain, to unforbid the given authority an ability.
+         *
+         * @param \Illuminate\Database\Eloquent\Model|string $authority
+         * @return \Silber\Bouncer\Conductors\RemovesAbilities 
+         * @static 
+         */ 
+        public static function unforbid($authority)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->unforbid($authority);
+        }
+                    /**
+         * Start a chain, to unforbid an ability from everyone.
+         *
+         * @return \Silber\Bouncer\Conductors\RemovesAbilities 
+         * @static 
+         */ 
+        public static function unforbidEveryone()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->unforbidEveryone();
+        }
+                    /**
+         * Start a chain, to assign the given role to a model.
+         *
+         * @param \Silber\Bouncer\Database\Role|\Illuminate\Support\Collection|string $roles
+         * @return \Silber\Bouncer\Conductors\AssignsRoles 
+         * @static 
+         */ 
+        public static function assign($roles)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->assign($roles);
+        }
+                    /**
+         * Start a chain, to retract the given role from a model.
+         *
+         * @param \Illuminate\Support\Collection|\Silber\Bouncer\Database\Role|string $roles
+         * @return \Silber\Bouncer\Conductors\RemovesRoles 
+         * @static 
+         */ 
+        public static function retract($roles)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->retract($roles);
+        }
+                    /**
+         * Start a chain, to sync roles/abilities for the given authority.
+         *
+         * @param \Illuminate\Database\Eloquent\Model|string $authority
+         * @return \Silber\Bouncer\Conductors\SyncsRolesAndAbilities 
+         * @static 
+         */ 
+        public static function sync($authority)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->sync($authority);
+        }
+                    /**
+         * Start a chain, to check if the given authority has a certain role.
+         *
+         * @param \Illuminate\Database\Eloquent\Model $authority
+         * @return \Silber\Bouncer\Conductors\ChecksRoles 
+         * @static 
+         */ 
+        public static function is($authority)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->is($authority);
+        }
+                    /**
+         * Get the clipboard instance.
+         *
+         * @return \Silber\Bouncer\Contracts\Clipboard 
+         * @static 
+         */ 
+        public static function getClipboard()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->getClipboard();
+        }
+                    /**
+         * Set the clipboard instance used by bouncer.
+         * 
+         * Will also register the given clipboard with the container.
+         *
+         * @param \Silber\Bouncer\Contracts\Clipboard
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function setClipboard($clipboard)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->setClipboard($clipboard);
+        }
+                    /**
+         * Register the guard's clipboard at the container.
+         *
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function registerClipboardAtContainer()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->registerClipboardAtContainer();
+        }
+                    /**
+         * Use a cached clipboard with the given cache instance.
+         *
+         * @param \Illuminate\Contracts\Cache\Store $cache
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function cache($cache = null)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->cache($cache);
+        }
+                    /**
+         * Fully disable all query caching.
+         *
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function dontCache()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->dontCache();
+        }
+                    /**
+         * Clear the cache.
+         *
+         * @param null|\Illuminate\Database\Eloquent\Model $authority
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function refresh($authority = null)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->refresh($authority);
+        }
+                    /**
+         * Clear the cache for the given authority.
+         *
+         * @param \Illuminate\Database\Eloquent\Model $authority
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function refreshFor($authority)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->refreshFor($authority);
+        }
+                    /**
+         * Set the access gate instance.
+         *
+         * @param \Illuminate\Contracts\Auth\Access\Gate $gate
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function setGate($gate)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->setGate($gate);
+        }
+                    /**
+         * Get the gate instance.
+         *
+         * @return \Illuminate\Contracts\Auth\Access\Gate|null 
+         * @static 
+         */ 
+        public static function getGate()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->getGate();
+        }
+                    /**
+         * Get the gate instance. Throw if not set.
+         *
+         * @return \Illuminate\Contracts\Auth\Access\Gate 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function gate()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->gate();
+        }
+                    /**
+         * Determine whether the clipboard used is a cached clipboard.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function usesCachedClipboard()
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->usesCachedClipboard();
+        }
+                    /**
+         * Define a new ability using a callback.
+         *
+         * @param string $ability
+         * @param callable|string $callback
+         * @return \Silber\Bouncer\Bouncer 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function define($ability, $callback)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->define($ability, $callback);
+        }
+                    /**
+         * Determine if the given ability should be granted for the current user.
+         *
+         * @param string $ability
+         * @param array|mixed $arguments
+         * @return \Illuminate\Auth\Access\Response 
+         * @throws \Illuminate\Auth\Access\AuthorizationException
+         * @static 
+         */ 
+        public static function authorize($ability, $arguments = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->authorize($ability, $arguments);
+        }
+                    /**
+         * Determine if the given ability is allowed.
+         *
+         * @param string $ability
+         * @param array|mixed $arguments
+         * @return bool 
+         * @static 
+         */ 
+        public static function can($ability, $arguments = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->can($ability, $arguments);
+        }
+                    /**
+         * Determine if any of the given abilities are allowed.
+         *
+         * @param array $abilities
+         * @param array|mixed $arguments
+         * @return bool 
+         * @static 
+         */ 
+        public static function canAny($abilities, $arguments = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->canAny($abilities, $arguments);
+        }
+                    /**
+         * Determine if the given ability is denied.
+         *
+         * @param string $ability
+         * @param array|mixed $arguments
+         * @return bool 
+         * @static 
+         */ 
+        public static function cannot($ability, $arguments = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->cannot($ability, $arguments);
+        }
+                    /**
+         * Determine if the given ability is allowed.
+         * 
+         * Alias for the "can" method.
+         *
+         * @deprecated 
+         * @param string $ability
+         * @param array|mixed $arguments
+         * @return bool 
+         * @static 
+         */ 
+        public static function allows($ability, $arguments = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->allows($ability, $arguments);
+        }
+                    /**
+         * Determine if the given ability is denied.
+         * 
+         * Alias for the "cannot" method.
+         *
+         * @deprecated 
+         * @param string $ability
+         * @param array|mixed $arguments
+         * @return bool 
+         * @static 
+         */ 
+        public static function denies($ability, $arguments = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->denies($ability, $arguments);
+        }
+                    /**
+         * Get an instance of the role model.
+         *
+         * @param array $attributes
+         * @return \Silber\Bouncer\Database\Role 
+         * @static 
+         */ 
+        public static function role($attributes = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->role($attributes);
+        }
+                    /**
+         * Get an instance of the ability model.
+         *
+         * @param array $attributes
+         * @return \Silber\Bouncer\Database\Ability 
+         * @static 
+         */ 
+        public static function ability($attributes = [])
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->ability($attributes);
+        }
+                    /**
+         * Set Bouncer to run its checks before the policies.
+         *
+         * @param bool $boolean
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function runBeforePolicies($boolean = true)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->runBeforePolicies($boolean);
+        }
+                    /**
+         * Register an attribute/callback to determine if a model is owned by a given authority.
+         *
+         * @param string|\Closure $model
+         * @param string|\Closure|null $attribute
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function ownedVia($model, $attribute = null)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->ownedVia($model, $attribute);
+        }
+                    /**
+         * Set the model to be used for abilities.
+         *
+         * @param string $model
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function useAbilityModel($model)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->useAbilityModel($model);
+        }
+                    /**
+         * Set the model to be used for roles.
+         *
+         * @param string $model
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function useRoleModel($model)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->useRoleModel($model);
+        }
+                    /**
+         * Set the model to be used for users.
+         *
+         * @param string $model
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function useUserModel($model)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->useUserModel($model);
+        }
+                    /**
+         * Set custom table names.
+         *
+         * @param array $map
+         * @return \Silber\Bouncer\Bouncer 
+         * @static 
+         */ 
+        public static function tables($map)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->tables($map);
+        }
+                    /**
+         * Get the model scoping instance.
+         *
+         * @param \Silber\Bouncer\Contracts\Scope|null $scope
+         * @return mixed 
+         * @static 
+         */ 
+        public static function scope($scope = null)
+        {
+                        /** @var \Silber\Bouncer\Bouncer $instance */
+                        return $instance->scope($scope);
+        }
+         
+    }
+     
+}
+
+    namespace Spatie\LaravelIgnition\Facades { 
             /**
      * 
      *
@@ -21592,6 +22213,7 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
+            class Bouncer extends \Silber\Bouncer\BouncerFacade {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      
 }

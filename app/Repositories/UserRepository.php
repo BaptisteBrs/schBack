@@ -43,7 +43,7 @@ class UserRepository
 
         $user->save();
 
-        foreach($array['role'] as $role){
+        foreach ($array['role'] as $role) {
             Bouncer::assign($role)->to($user);
         }
         return User::where('id', $user->id)->with('coach_category', 'player_category')->first();
@@ -143,7 +143,7 @@ class UserRepository
 
         if (!$user || !Hash::check($array['password'], $user->password)) {
             return json_encode([
-                'message' => 'Invalid login details'
+                'message' => 'Identifiants de connexion incorrects.'
             ], 401);
         }
 
