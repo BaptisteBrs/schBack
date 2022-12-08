@@ -36,7 +36,26 @@ class UsersSeeder extends Seeder
                 'bureau_fonction' => null,
                 'birthday' => Carbon::createFromFormat('d/m/Y H:i:s',  '23/06/2000 00:00:00'),
                 'coach_category' => null,
-                'player_category' => '1'
+                'player_category' => '1',
+                'picture'=>null
+            ],
+            1 => [
+                'name' => 'Chatal',
+                'firstname' => 'Sébastien',
+                'login' => 'SChatal',
+                'email' => 'sebastien.chatal@sch.com',
+                'password' => Hash::make("SChatal.444"),
+                'phone' => '0781995205',
+                'is_actif' => true,
+                'is_bureau' => true,
+                'is_coach' => false,
+                'is_benevole' => false,
+                'is_player' => false,
+                'bureau_fonction' => "Président",
+                'birthday' => Carbon::createFromFormat('d/m/Y H:i:s',  '23/06/2000 00:00:00'),
+                'coach_category' => null,
+                'player_category' => null,
+                'picture'=>null
             ]
         ]);
     }

@@ -119,9 +119,9 @@ class UserRepository
         $coach = User::with('coach_category')->where('is_coach', true)->get();
         $beneveoles = User::where('is_benevole', true)->get();
 
-        array_push($result, $bureau);
-        array_push($result, $coach);
-        array_push($result, $beneveoles);
+        $result['bureau'] = $bureau;
+        $result['coach'] = $coach;
+        $result['benevoles'] = $beneveoles;
 
         return $result;
     }
