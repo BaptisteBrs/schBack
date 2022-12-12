@@ -24,16 +24,15 @@ return new class extends Migration
             $table->string('opponent');
             $table->integer('sch_goals')->default(0);
             $table->integer('opponent_goals');
-            $table->foreignIdFor(Team::class,'team');
-            $table->foreignIdFor(GameType::class,'game');
-            $table->time('hour');
-            $table->string('comment');
+            $table->foreignIdFor(Team::class, 'team');
+            $table->foreignIdFor(GameType::class, 'type');
+            $table->string('hour');
+            $table->string('comment')->nullable();
             $table->boolean('is_home')->default(true);
             $table->boolean('is_finish')->default(false);
             $table->boolean('is_win')->default(null)->nullable();
             $table->boolean('is_lose')->default(null)->nullable();
             $table->boolean('is_draw')->default(null)->nullable();
-            $table->foreignIdFor(Category::class, 'category');
             $table->softDeletes();
         });
     }

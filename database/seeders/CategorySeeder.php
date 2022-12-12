@@ -21,7 +21,49 @@ class CategorySeeder extends Seeder
                 'has_drivers' => false,
                 'has_shirts' => false,
                 'has_cleaners' => true
-            ]
+            ],
+            1 => [
+                'name' => 'U17/U18',
+                'has_drivers' => true,
+                'has_shirts' => true,
+                'has_cleaners' => true
+            ],
+            2 => [
+                'name' => 'U14/U15',
+                'has_drivers' => true,
+                'has_shirts' => true,
+                'has_cleaners' => true
+            ],
+            3 => [
+                'name' => 'U12/U13',
+                'has_drivers' => true,
+                'has_shirts' => true,
+                'has_cleaners' => true
+            ],
+            4 => [
+                'name' => 'U10/U11',
+                'has_drivers' => true,
+                'has_shirts' => true,
+                'has_cleaners' => true
+            ],
+            5 => [
+                'name' => 'U8/U9',
+                'has_drivers' => true,
+                'has_shirts' => true,
+                'has_cleaners' => true
+            ],
+            6 => [
+                'name' => 'Ecole de foot',
+                'has_drivers' => true,
+                'has_shirts' => true,
+                'has_cleaners' => true
+            ],
+            7 => [
+                'name' => 'Loisirs',
+                'has_drivers' => true,
+                'has_shirts' => true,
+                'has_cleaners' => true
+            ],
         ]);
     }
 }

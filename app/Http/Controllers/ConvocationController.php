@@ -13,7 +13,7 @@ class ConvocationController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('');
+        $this->middleware('auth:sanctum')->except('lastByCategory');
         $this->repo = new ConvocationRepository();
     }
 
@@ -24,7 +24,11 @@ class ConvocationController extends Controller
      */
     public function index()
     {
-        return $this->repo->all();
+        if (Auth::user()->can('view_convocations')) {
+
+            return $this->repo->all();
+        }
+        return abort(401);
     }
 
 
@@ -41,7 +45,7 @@ class ConvocationController extends Controller
             $array = $request->all();
             return $this->repo->store($array);
         }
-        return abort(403);
+        return abort(401);
     }
 
     /**
@@ -56,7 +60,7 @@ class ConvocationController extends Controller
 
             return $this->repo->show($id);
         }
-        return abort(403);
+        return abort(401);
     }
 
     /**
@@ -73,7 +77,7 @@ class ConvocationController extends Controller
             $array = $request->all();
             return $this->repo->update($array, $id);
         }
-        return abort(403);
+        return abort(401);
     }
 
     /**
@@ -88,7 +92,7 @@ class ConvocationController extends Controller
 
             return $this->repo->delete($id);
         }
-        return abort(403);
+        return abort(401);
     }
 
 

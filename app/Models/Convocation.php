@@ -39,13 +39,23 @@ class Convocation extends Model
     public $timestamps = true;
     use SoftDeletes;
 
-    public function players()
+    public function convocation_players()
     {
-        return $this->belongsToMany(User::class, 'convocation_player', 'player');
+        return $this->hasMany(ConvocationPlayer::class,'convocation', 'id');
     }
 
     public function game()
     {
         return $this->belongsTo(Game::class, 'game');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category');
     }
 }

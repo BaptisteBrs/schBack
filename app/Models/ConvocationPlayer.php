@@ -43,5 +43,8 @@ class ConvocationPlayer extends Model
     public $timestamps = true;
     use SoftDeletes;
 
-
+    public function player()
+    {
+        return $this->hasOne(User::class, 'id', 'player');
+    }
 }

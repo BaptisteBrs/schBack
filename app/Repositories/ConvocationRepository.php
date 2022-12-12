@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Convocation;
 use App\Models\ConvocationPlayer;
+use App\Models\Game;
 use App\Models\Team;
 use App\Models\User;
 use Date;
@@ -20,7 +21,7 @@ class ConvocationRepository
         return Convocation::with('players', 'game')->get();
     }
 
-    
+
     public function save(Convocation $convocation, array $array): Convocation
     {
         $convocation->appointment = $array['appointment'];
@@ -68,11 +69,22 @@ class ConvocationRepository
     public function lastByCategory(int $category, int $code = null)
     {
         $teams = Team::where('category', $category)->get();
-        $convocations = Convocation::with('players', 'game')->where('category', $category)->get();
+        $date = now()->toDateString('Y-m-d');
+        $convocations = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('category', $category)->where('date', '>=', $date)->orderBy('date', 'asc')->get();
+
         $result = [];
         foreach ($teams as $team) {
-            $convocation = $convocations->where('team', $team->id);
-            array_push($result, $convocation);
+
+            $convocation = $convocations->where('team', $team->id)->first();
+            if ($convocation == null) {
+                $date = now();
+                $date->subDays(7);
+                $convocation = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('team', $team->id)->where('date', '>=', $date)->orderBy('date', 'asc')->first();
+            }
+
+            if ($convocation != null) {
+                array_push($result, $convocation);
+            }
         }
         return $result;
     }

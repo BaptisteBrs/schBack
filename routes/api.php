@@ -47,8 +47,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 Route::post('public/login', [UserController::class, 'login'])->name('login');
+Route::get('public/categories', [CategoryController::class, 'index'])->name('categories');
 Route::get('public/last', [GameController::class, 'last'])->name('last');
 Route::get('public/next', [GameController::class, 'next'])->name('next');
 Route::get('public/partenaires', [PartenaireController::class, 'index'])->name('partenaire');
 Route::get('public/organigramme', [UserController::class, 'organigramme'])->name('organigramme');
-
+Route::get('public/convocations/{id}', [ConvocationController::class, 'lastByCategory'])->name('convocationsByCategory');

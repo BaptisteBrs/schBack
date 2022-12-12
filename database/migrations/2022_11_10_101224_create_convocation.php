@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Game;
+use App\Models\Category;
+use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +19,13 @@ return new class extends Migration
         Schema::create('convocation', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('appointment');
-            $table->foreignIdFor(Game::class, 'game');
+            $table->date('date');
+            $table->string('appointment')->nullable();
+            $table->foreignIdFor(Game::class, 'game')->nullable();
+            $table->foreignIdFor(Category::class, 'category');
+            $table->foreignIdFor(Team::class, 'team');
+            $table->boolean('no_game')->default(false);
+            $table->string('comment')->nullable();
             $table->softDeletes();
         });
     }

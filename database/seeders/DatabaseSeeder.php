@@ -21,7 +21,12 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UsersSeeder::class,
             AssignedRoleSeeder::class,
-            PartenaireSeeder::class
+            PartenaireSeeder::class,
+            GameTypeSeeder::class,
+            TeamSeeder::class,
+            GameSeeder::class,
+            ConvocationSeeder::class,
+            ConvocationPlayerSeeder::class,
         ]);
     }
 }

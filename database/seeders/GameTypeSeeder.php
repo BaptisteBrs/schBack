@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class GameTypeSeeder extends Seeder
 {
@@ -14,6 +15,19 @@ class GameTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('game_type')->insert([
+            0 => [
+                'name' => 'Amical',
+                'icon' => '🤝'
+            ],
+            1 => [
+                'name' => 'Championnat',
+                'icon' => '🥇'
+            ],
+            2 => [
+                'name' => 'Coupe',
+                'icon' => '🏆'
+            ],
+        ]);
     }
 }
