@@ -26,7 +26,7 @@ class UsersSeeder extends Seeder
                 'firstname' => 'Baptiste',
                 'login' => 'BBoursin',
                 'email' => 'baptiste.boursin@gmail.com',
-                'password' => Hash::make("#AdminSch!44410"),
+                'password' => Hash::make("test"),
                 'phone' => '0781995205',
                 'is_actif' => true,
                 'is_bureau' => false,

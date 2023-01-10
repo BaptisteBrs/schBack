@@ -24,7 +24,7 @@ class PartenaireSeeder extends Seeder
                 'city' => 'Herbignac',
                 'name' => 'L‘oben',
                 'website' => 'https://www.lobenherbignac.fr',
-                'picture' => 'images/   partenaire/Carte de visite oben.png',
+                'picture' => 'images/partenaire/Carte_de_visite_oben.png',
             ]
         ]);
     }

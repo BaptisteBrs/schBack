@@ -129,4 +129,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Category::class, 'player_category');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'assigned_roles', 'entity_id', 'role_id');
+    }
 }

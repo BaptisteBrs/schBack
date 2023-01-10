@@ -13,7 +13,7 @@ class GameController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('');
+        $this->middleware('auth:sanctum')->except('next', 'last');
         $this->repo = new GameRepository();
     }
 
@@ -71,10 +71,11 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->can('udpate_games')) {
+        if (Auth::user()->can('update_games')) {
 
             $array = $request->all();
-            return $this->repo->update($array, $id);
+            $game =  $this->repo->update($array, $id);
+            return $game;
         }
         return abort(403);
     }
@@ -109,5 +110,13 @@ class GameController extends Controller
     public function last()
     {
         return $this->repo->last();
+    }
+
+    /**
+     * Function that return not finished games
+     */
+    public function allNotFinish()
+    {
+        return $this->repo->allNotFinish();
     }
 }

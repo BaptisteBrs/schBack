@@ -42,7 +42,7 @@ class PartenaireController extends Controller
         if (Auth::user()->can('store_partenaires')) {
 
             $array = $request->all();
-            if ($request->file('picture') !== null) {
+            if ($request->file('picture') !== null && $request->file('picture') !== '') {
                 $array['picture_name'] = $this->upload($request->file('picture'), $this->folder);
             }
 
@@ -78,11 +78,7 @@ class PartenaireController extends Controller
         if (Auth::user()->can('update_partenaires')) {
 
             $array = $request->all();
-            if ($request->file('picture') !== null) {
-                //checkl if picture already exists
 
-                $array['picture_name'] = $this->upload($request->file('picture'), $this->folder);
-            }
             return $this->repo->update($array, $id);
         }
         return abort(403);
@@ -102,6 +98,22 @@ class PartenaireController extends Controller
         }
         return abort(403);
     }
+
+    /**
+     * Save file image
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFile(Request $request)
+    {
+        if (Auth::user()->can('store_partenaires')) {
+            return $this->upload($request->file('picture'), $this->folder);
+        }
+        return abort(403);
+    }
+
+
 
     public function upload(UploadedFile $file, string $folder)
     {

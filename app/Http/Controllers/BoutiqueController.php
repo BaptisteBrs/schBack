@@ -6,7 +6,7 @@ use App\Repositories\BoutiqueRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-
+use Upload;
 
 class BoutiqueController extends Controller
 {
@@ -92,6 +92,20 @@ class BoutiqueController extends Controller
         if (Auth::user()->can('delete_boutiques')) {
 
             return $this->repo->delete($id);
+        }
+        return abort(403);
+    }
+
+    /**
+     * Save file image
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFile(Request $request)
+    {
+        if (Auth::user()->can('store_boutiques')) {
+            return Upload::upload($request->file('picture'), $this->folder);
         }
         return abort(403);
     }

@@ -19,14 +19,22 @@ class PartenaireRepository
 
     public function save(Partenaire $partenaire, array $array): Partenaire
     {
-        $partenaire->email = $array['email'];
-        $partenaire->phone = $array['phone'];
-        $partenaire->address = $array['address'];
-        $partenaire->zip = $array['zip'];
-        $partenaire->city = $array['city'];
+        $partenaire->email = array_key_exists('email', $array) ? $array['email'] : null;
+        $partenaire->phone = array_key_exists('phone', $array) ?  $array['phone'] : null;
+        $partenaire->address = array_key_exists('address', $array) ?  $array['address'] : null;
+        $partenaire->zip = array_key_exists('zip', $array) ?  $array['zip'] : null;
+        $partenaire->city = array_key_exists('city', $array) ?  $array['city'] : null;
         $partenaire->name = $array['name'];
-        $partenaire->website = $array['website'];
-        $partenaire->picture = $array['picture_name'];
+        $partenaire->website = array_key_exists('website', $array) ?  $array['website'] : null;
+        $partenaire->picture = array_key_exists('picture', $array) ?  $array['picture'] : null;
+
+        // if (!array_key_exists('picture', $array)) {
+        //     if ($partenaire->picture === null) {
+        //         $partenaire->picture = null;
+        //     }
+        // } else {
+        //     $partenaire->picture = $array['picture'];
+        // }
 
         $partenaire->save();
 

@@ -16,7 +16,7 @@ class ArticleTypeController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('');
+        $this->middleware('auth:sanctum')->except('index');
         $this->repo = new ArticleTypeRepository();
     }
 
@@ -27,10 +27,7 @@ class ArticleTypeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->can('view_article_types')) {
-            return $this->repo->all();
-        }
-        return abort(403);
+        return $this->repo->all();
     }
 
 
@@ -99,6 +96,20 @@ class ArticleTypeController extends Controller
     {
         if (Auth::user()->can('delete_article_types')) {
             return $this->repo->delete($id);
+        }
+        return abort(403);
+    }
+
+    /**
+     * Save file image
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFile(Request $request)
+    {
+        if (Auth::user()->can('store_article_types')) {
+            return Upload::upload($request->file('picture'), $this->folder);
         }
         return abort(403);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,6 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->can('store_categories')) {
-
             $array = $request->all();
             return $this->repo->store($array);
         }
@@ -50,14 +50,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        if (Auth::user()->can('view_categories')) {
+    // public function show($id)
+    // {
+    //     if (Auth::user()->can('view_categories')) {
 
-            return $this->repo->show($id);
-        }
-        return abort(403);
-    }
+    //         return $this->repo->show($id);
+    //     }
+    //     return abort(403);
+    // }
 
     /**
      * Update the specified resource in storage.

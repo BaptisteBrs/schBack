@@ -7,7 +7,9 @@ use App\Models\ConvocationPlayer;
 use App\Models\Game;
 use App\Models\Team;
 use App\Models\User;
+use Carbon\Carbon;
 use Date;
+use DateTime;
 
 //use Your Model
 
@@ -18,26 +20,33 @@ class ConvocationRepository
 {
     public function all()
     {
-        return Convocation::with('players', 'game')->get();
+        return Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->orderby('date', 'desc')->get();
     }
 
 
-    public function save(Convocation $convocation, array $array): Convocation
+    public function save(Convocation $convocation, array $array)
     {
-        $convocation->appointment = $array['appointment'];
-        $convocation->game = $array['game'];
+        $team = Team::where('id', $array['team'])->first();
+        $convocation->appointment = array_key_exists('appointment', $array) ? $array['appointment'] : null;
+        $convocation->game = array_key_exists('game', $array) ? $array['game'] : null;
+        $convocation->date = $array['date'];
+        $convocation->category = $array['category'] != null ? $array['category'] : $team->category;
+        $convocation->team = $array['team'];
+        $convocation->no_game = array_key_exists('no_game', $array) ? $array['no_game'] : false;
+        $convocation->comment = array_key_exists('comment', $array) ? $array['comment'] : null;
         $convocation->save();
 
         foreach ($array['players'] as $player_conv) {
             $convocation_player = new ConvocationPlayer();
-            $convocation_player->player = $player_conv->player;
-            $convocation_player->convocation = $convocation;
-            $convocation_player->is_driver =  $player_conv->is_driver;
-            $convocation_player->is_shirt = $player_conv->is_shirt;
-            $convocation_player->is_cleaner = $player_conv->is_cleaner;
+            $convocation_player->player = $player_conv['player'];
+            $convocation_player->convocation = $convocation->id;
+            $convocation_player->is_driver =  $player_conv['is_driver'];
+            $convocation_player->is_shirt = $player_conv['is_shirt'];
+            $convocation_player->is_cleaner = $player_conv['is_cleaner'];
 
             $convocation_player->save();
         }
+        $convocation = Convocation::where('id', $convocation->id)->with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->first();
         return $convocation;
     }
 
@@ -89,20 +98,27 @@ class ConvocationRepository
         return $result;
     }
 
-    public function selectedPlayersByCategory(int $category, Date $date)
+    public function selectedPlayersByCategory(string $date)
     {
         $result = [];
 
-        $players = User::where('is_player', true)->where('player_category', $category)->get();
-        $convocations = Convocation::where('category', $category)->whereHas('game', function ($query, $date) {
-            return $query->where('date', $date);
-        })->get();
+        $date_min = new DateTime($date);
+        $date_min->modify("-1 day");
+        $date_max = new DateTime($date);
+        $date_max->modify("+1 day");
+
+
+        $players = User::where('is_player', true)->get();
+        $convocations = Convocation::where('date', '>=', $date_min)->where('date', '<=', $date_max)->with('convocation_players.player')->get();
 
         foreach ($convocations as $convocation) {
-            $convocations_players = ConvocationPlayer::where('convocation', $convocation->id)->get();
-            foreach ($players as $player) {
-                if ($convocations_players->where('player', $player->id)->count > 0) {
-                    array_push($result, $player);
+            $convocation_players = $convocation->convocation_players;
+            foreach ($convocation_players as $conv_player) {
+                foreach ($players as $player) {
+                    if ($conv_player->player == $player->id && !in_array($player->id, $result)) {
+
+                        array_push($result, $player->id);
+                    }
                 }
             }
         }

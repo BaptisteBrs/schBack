@@ -13,7 +13,7 @@ class TagController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum')->except('index');
         $this->repo = new TagRepository();
     }
 
@@ -24,11 +24,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->can('view_tags')) {
-
-            return $this->repo->all();
-        }
-        return abort(403);
+        return $this->repo->all();
     }
 
 

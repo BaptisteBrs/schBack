@@ -2,8 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Models\Convocation;
 use App\Models\Game;
 use App\Models\Team;
+use Carbon\Carbon;
+use Date;
+use DateTime;
 
 //use Your Model
 
@@ -14,33 +18,37 @@ class GameRepository
 {
     public function all()
     {
-        return Game::with('type', 'category', 'team')->get();
+        return Game::with('type', 'team.category')->orderBy('date', 'desc')->get();
+    }
+
+    public function allNotFinish()
+    {
+        return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>', Carbon::today())->orderBy('date', 'asc')->get();
     }
 
     public function save(Game $game, array $array): Game
     {
         $game->date = $array['date'];
-        $game->place = $array['place'];
+        $game->place = array_key_exists('place', $array) ? $array['place'] : false;
         $game->opponent = $array['opponent'];
         $game->sch_goals = $array['sch_goals'];
         $game->opponent_goals = $array['opponent_goals'];
         $game->team = $array['team'];
-        $game->game = $array['game'];
+        $game->type = $array['type'];
         $game->hour = $array['hour'];
         $game->comment = $array['comment'];
         $game->is_home = $array['is_home'];
         $game->is_finish = array_key_exists('is_finish', $array) ? $array['is_finish'] : false;
-        $game->is_win = $game->is_finish ? ($game->sch_goals > $game->opponent_goals ? true : false) : null;
-        $game->is_lose = $game->is_finish ? ($game->sch_goals < $game->opponent_goals ? true : false) : null;;
-        $game->is_draw = $game->is_finish ? ($game->sch_goals = $game->opponent_goals ? true : false) : null;;
-        $game->category = $array['category'];
+        $game->is_win = $game->is_finish ? ($array['sch_goals'] > $array['opponent_goals'] ? true : false) : null;
+        $game->is_lose = $game->is_finish ? ($array['sch_goals'] < $array['opponent_goals'] ? true : false) : null;;
+        $game->is_draw = $game->is_finish ? ($array['sch_goals'] = $array['opponent_goals'] ? true : false) : null;;
         $game->save();
-        return $game;
+        return Game::with('type', 'team.category')->where('id', $game->id)->first();
     }
 
     public function show(int $id)
     {
-        return Game::where('id', $id)->with('type', 'category', 'team')->first();
+        return Game::where('id', $id)->with('type', 'team.category')->first();
     }
 
     public function store(array $array)
@@ -65,13 +73,15 @@ class GameRepository
     public function last()
     {
         $date = date('Y-m-d');
-        $games = Game::where('date', '<=', $date)->where('is_finish', true)->orderBy('date')->get();
+        $games = Game::where('date', '<=', $date)->where('is_finish', true)->orderBy('date')->with('type', 'team.category')->get();
         $teams = Team::all();
         $result = [];
 
         foreach ($teams as $team) {
             $game = $games->firstWhere('team', $team->id);
-            array_push($result, $game);
+            if ($game != null) {
+                array_push($result, $game);
+            }
         }
         return $result;
     }
@@ -79,13 +89,15 @@ class GameRepository
     public function next()
     {
         $date = date('Y-m-d');
-        $games = Game::with('type', 'category', 'team')->where('date', '>=', $date)->where('is_finish', false)->orderBy('date')->get();
+        $games = Game::with('type', 'team.category')->where('date', '>=', $date)->where('is_finish', false)->orderBy('date')->with('type', 'team.category')->get();
         $teams = Team::all();
         $result = [];
 
         foreach ($teams as $team) {
             $game = $games->firstWhere('team', $team->id);
-            array_push($result, $game);
+            if ($game != null) {
+                array_push($result, $game);
+            }
         }
         return $result;
     }

@@ -95,4 +95,29 @@ class TeamController extends Controller
         }
         return abort(403);
     }
+
+
+    /**
+     * team without game for the given date
+     */
+    public function noGameTeams(string $date)
+    {
+        if (Auth::user()->can('store_teams')) {
+
+            return $this->repo->noGameTeams($date);
+        }
+        return abort(403);
+    }
+
+    /**
+     * team without game for the given date
+     */
+    public function noGameTeamsForGames(string $date)
+    {
+        if (Auth::user()->can('store_teams')) {
+
+            return $this->repo->noGameTeamsForGames($date);
+        }
+        return abort(403);
+    }
 }

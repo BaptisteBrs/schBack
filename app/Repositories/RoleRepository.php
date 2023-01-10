@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Role;
+use Bouncer;
+use Str;
 
 //use Your Model
 
@@ -13,14 +15,32 @@ class RoleRepository
 {
     public function all()
     {
-        return Role::all();
+        return Role::with('abilities')->get();
     }
 
     public function save(Role $role, array $array): Role
     {
         $role->name = $array['name'];
-        $role->title = $array['title'];
+        $role->title = array_key_exists('title', $array) ? $array['title'] : Str::ucfirst($array['name']);
         $role->save();
+
+        $role = Role::with('abilities')->where('id', $role->id)->first();
+
+        if ($role->name != 'admin') {
+
+            if ($array['abilities'] != null) {
+                foreach ($role->abilities as $ability) {
+                    Bouncer::disallow($role)->to($ability);
+                }
+
+                foreach ($array['abilities'] as $ability) {
+                    Bouncer::allow($role)->to($ability);
+                }
+            }
+        }
+
+        $role = Role::with('abilities')->where('id', $role->id)->first();
+
         return $role;
     }
 

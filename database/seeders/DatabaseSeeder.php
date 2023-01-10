@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             AbilitiesSeeder::class,
             RoleSeeder::class,
             CategorySeeder::class,
-            PermissionSeeder::class,
             UsersSeeder::class,
+            PermissionSeeder::class,
             AssignedRoleSeeder::class,
             PartenaireSeeder::class,
             GameTypeSeeder::class,
@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
             GameSeeder::class,
             ConvocationSeeder::class,
             ConvocationPlayerSeeder::class,
+            ArticleTypeSeeder::class,
+            ArticleSeeder::class,
+            TagSeeder::class,
+            ArticleTagSeeder::class
         ]);
     }
 }

@@ -12,7 +12,7 @@ class CategoryRepository
 {
     public function all()
     {
-        return Category::all();
+        return Category::orderBy('id', 'desc')->get();
     }
 
     public function save(Category $category, array $array): Category
@@ -26,10 +26,10 @@ class CategoryRepository
         return $category;
     }
 
-    public function show(int $id)
-    {
-        return Category::where('id', $id)->first();
-    }
+    // public function show(int $id)
+    // {
+    //     return Category::where('id', $id)->first();
+    // }
 
     public function store(array $array)
     {

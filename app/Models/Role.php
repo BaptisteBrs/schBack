@@ -30,4 +30,8 @@ class Role extends Model
     use HasFactory;
     protected $table = 'roles';
 
+    public function abilities()
+    {
+        return $this->belongsToMany(Abilities::class, 'permissions', 'entity_id', 'ability_id');
+    }
 }

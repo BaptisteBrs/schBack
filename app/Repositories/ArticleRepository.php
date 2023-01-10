@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Article;
 use App\Models\ArticleTag;
+use Carbon\Carbon;
 use DateTime;
 
 /**
@@ -17,25 +18,29 @@ class ArticleRepository
         return Article::with('type', 'tags')->get();
     }
 
-    public function save(Article $article, array $array): Article
+    public function save(Article $article, array $array, $is_create = false): Article
     {
+        if ($is_create) {
+            $article->publication = new DateTime();
+        }
         $article->title = $array['title'];
-        $article->publication = new DateTime();
         $article->date = $array['date'];
         $article->begin = array_key_exists('begin', $array) ? $array['begin'] : null;
         $article->end = array_key_exists('end', $array) ? $array['end'] : null;
         $article->type = $array['type'];
         $article->description = array_key_exists('description', $array) ? $array['description'] : null;
-        $article->picture = array_key_exists('picture_name', $array) ? $array['picture_name'] : null;
+        $article->picture = array_key_exists('picture', $array) ? $array['picture'] : null;
 
         $article->save();
 
         foreach ($array['tags'] as $tag) {
             $article_tag =  new ArticleTag();
             $article_tag->tag = $tag;
-            $article_tag->article = $article;
+            $article_tag->article = $article->id;
             $article_tag->save();
         }
+
+        $article = Article::where('id', $article->id)->with('type', 'tags')->first();
 
         return $article;
     }
@@ -48,7 +53,7 @@ class ArticleRepository
     public function store(array $array)
     {
         $article = new Article();
-        return $this->save($article, $array);
+        return $this->save($article, $array, true);
     }
 
     public function update(array $array, int $id)
@@ -66,6 +71,6 @@ class ArticleRepository
 
     public function last()
     {
-        return Article::with('type', 'tags')->take(10)->get();
+        return Article::with('type', 'tags')->take(5)->get();
     }
 }

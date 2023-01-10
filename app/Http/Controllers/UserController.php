@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Auth;
+use Bouncer;
 use Hash;
 use Illuminate\Http\Request;
-use Silber\Bouncer\Bouncer;
+use Illuminate\Http\UploadedFile;
+use Laravel\Sanctum\PersonalAccessToken;
+use Str;
 use Upload;
 
 class UserController extends Controller
@@ -21,7 +24,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('login', 'organigramme');
+        $this->middleware('auth:sanctum')->except('login', 'logout', 'firstConnexion', 'updatePassword', 'organigramme', 'checkToken');
         $this->repo = new UserRepository();
     }
 
@@ -35,7 +38,7 @@ class UserController extends Controller
         if (Auth::user()->can('view_users')) {
             return $this->repo->all();
         }
-        return abort(403);
+        return abort(401);
     }
 
 
@@ -50,15 +53,10 @@ class UserController extends Controller
         if (Auth::user()->can('store_users')) {
 
             $array = $request->all();
-            if ($request->file('picture') !== null) {
 
-                $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
-            } else {
-                $array['picture_name'] = $this::DEFAULT_IMAGE;
-            }
             return $this->repo->store($array);
         }
-        return abort(403);
+        return abort(401);
     }
 
     /**
@@ -70,10 +68,9 @@ class UserController extends Controller
     public function show($id)
     {
         if (Auth::user()->can('view_users')) {
-
             return $this->repo->show($id);
         }
-        return abort(403);
+        return abort(401);
     }
 
     /**
@@ -87,13 +84,11 @@ class UserController extends Controller
     {
         if (Auth::user()->can('update_user')) {
             $array = $request->all();
-            if ($request->file('picture') !== null) {
-                $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
-            }
+
             return $this->repo->update($array, $id);
         }
 
-        return abort(403);
+        return abort(401);
     }
 
     /**
@@ -107,7 +102,7 @@ class UserController extends Controller
         if (Auth::user()->can('delete_user')) {
             return $this->repo->delete($id);
         }
-        return abort(403);
+        return abort(401);
     }
 
     /**Function for login */
@@ -117,9 +112,76 @@ class UserController extends Controller
         return $this->repo->login($array);
     }
 
+    /**Function for logout */
+    public function logout(Request $request)
+    {
+
+        // Get bearer token from the request
+        $accessToken = $request->bearerToken();
+
+        // Get access token from database
+        $token = PersonalAccessToken::findToken($accessToken);
+
+        // Revoke token
+        $token->delete();
+
+        return true;
+    }
+
+    /**Function for first connexion */
+    public function firstConnexion(Request $request)
+    {
+        $array = $request->all();
+        return $this->repo->firstConnexion($array);
+    }
+
+    /**Function for reset password */
+    public function updatePassword(Request $request)
+    {
+        $array = $request->all();
+        return $this->repo->updatePassword($array);
+    }
+
     /**function for organigramme  */
     public function organigramme()
     {
         return $this->repo->organigramme();
+    }
+
+    /**function for players by categories */
+    public function playersByCategory(int $category)
+    {
+        return $this->repo->playersByCategory($category);
+    }
+
+    /**
+     * Save file image
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFile(Request $request)
+    {
+        if (Auth::user()->can('store_users')) {
+            return $this->upload($request->file('picture'), $this->folder);
+        }
+        return abort(401);
+    }
+
+
+
+    public function upload(UploadedFile $file, string $folder)
+    {
+        $filename = date('YmdHI') . $file->getClientOriginalName();
+        $file->move(public_path('images/' . $folder), $filename);
+        return 'images/' . $folder . '/' . $filename;
+    }
+
+    public function checkToken(Request $request)
+    {
+        if ($user = auth('sanctum')->user() != null) {
+            return true;
+        }
+        return false;
     }
 }

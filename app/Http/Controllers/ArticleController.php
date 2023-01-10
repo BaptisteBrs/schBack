@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\ArticleRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Upload;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +12,11 @@ class ArticleController extends Controller
 {
 
     private ArticleRepository $repo;
+    private  String $folder  = 'article';
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('');
+        $this->middleware('auth:sanctum')->except('index', 'last');
         $this->repo = new ArticleRepository();
     }
 
@@ -25,11 +27,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->can('view_articles')) {
-
-            return $this->repo->all();
-        }
-        return abort(403);
+        return $this->repo->all();
     }
 
 
@@ -76,9 +74,6 @@ class ArticleController extends Controller
         if (Auth::user()->can('udpate_articles')) {
 
             $array = $request->all();
-            if ($request->file('picture') !== null) {
-                $array['picture_name'] = Upload::upload($request->file('picture'), $this->folder);
-            }
             return $this->repo->update($array, $id);
         }
         return abort(403);
@@ -96,5 +91,40 @@ class ArticleController extends Controller
             return $this->repo->delete($id);
         }
         return abort(403);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function last()
+    {
+        return $this->repo->last();
+    }
+
+
+    /**
+     * Save file image
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFile(Request $request)
+    {
+        if (Auth::user()->can('store_articles')) {
+            return $this->upload($request->file('picture'), $this->folder);
+        }
+        return abort(403);
+    }
+
+
+
+    public function upload(UploadedFile $file, string $folder)
+    {
+        $filename = date('YmdHI') . $file->getClientOriginalName();
+        $file->move(public_path('images/' . $folder), $filename);
+        return 'images/' . $folder . '/' . $filename;
     }
 }

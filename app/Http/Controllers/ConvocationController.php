@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ConvocationRepository;
+use Date;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,7 +73,7 @@ class ConvocationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->can('udpate_convocations')) {
+        if (Auth::user()->can('update_convocations')) {
 
             $array = $request->all();
             return $this->repo->update($array, $id);
@@ -99,5 +100,10 @@ class ConvocationController extends Controller
     public function lastByCategory(int $category)
     {
         return $this->repo->lastByCategory($category);
+    }
+
+    public function selectedPlayersByCategory(string $date)
+    {
+        return $this->repo->selectedPlayersByCategory($date);
     }
 }

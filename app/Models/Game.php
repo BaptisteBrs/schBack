@@ -52,7 +52,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\Team|null $team
  * @property int $game
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\GameType|null $type
+ * @property \App\Models\GameType|null $type
  * @method static \Illuminate\Database\Query\Builder|Game onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereGame($value)
@@ -75,10 +75,5 @@ class Game extends Model
     public function team()
     {
         return $this->belongsTo(Team::class, 'team');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category');
     }
 }

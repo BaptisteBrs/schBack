@@ -20,10 +20,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->date('date');
-            $table->string('place');
+            $table->string('place')->nullable();
             $table->string('opponent');
             $table->integer('sch_goals')->default(0);
-            $table->integer('opponent_goals');
+            $table->integer('opponent_goals')->default(0);
             $table->foreignIdFor(Team::class, 'team');
             $table->foreignIdFor(GameType::class, 'type');
             $table->string('hour');
