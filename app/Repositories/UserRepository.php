@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Mail\ForgotPasswordMail;
 use App\Mail\Test;
 use App\Models\Role;
 use App\Models\User;
@@ -126,7 +127,7 @@ class UserRepository
         }
         try {
             Mail::to('baptiste.boursin@gmail.com')
-                ->send(new Test($user));
+                ->send(new ForgotPasswordMail($user));
 
             return "Un mail a été envoyé si votre adresse mail est connue de notre système.";
         } catch (Exception $ex) {
