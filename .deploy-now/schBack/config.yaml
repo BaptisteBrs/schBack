@@ -18,7 +18,6 @@ deploy:
       - find $(pwd) -type d -not -name "logs" -exec chmod 775 {} \;
       - chmod -R o+w storage bootstrap/cache
       - php artisan optimize:clear
-      # - php artisan migrate --force -n
       - php artisan storage:link
       - php artisan optimize
       - php artisan up
@@ -51,3 +50,5 @@ deploy:
 #    - command: my-cron-job-command # the deployment is located at $HOME/htdocs/ to execute a deployed script just prefix it accordingly
 #      schedule: 0 5 * * * # run every day at 5:00
 # - php artisan migrate --force -n
+      # - php artisan migrate --force -n
+
