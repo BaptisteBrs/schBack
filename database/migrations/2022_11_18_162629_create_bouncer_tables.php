@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use Silber\Bouncer\Database\Models;
 
 use Illuminate\Support\Facades\Schema;
@@ -54,7 +55,7 @@ class CreateBouncerTables extends Migration
                 'assigned_roles_entity_index'
             );
 
-            $table->foreignIdFor(Models::table('roles'), 'role_id');
+            $table->foreignIdFor(Role::class, 'role_id');
         });
 
         Schema::create(Models::table('permissions'), function (Blueprint $table) {
