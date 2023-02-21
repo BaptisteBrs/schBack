@@ -54,8 +54,7 @@ class CreateBouncerTables extends Migration
                 'assigned_roles_entity_index'
             );
 
-            $table->foreign('role_id')
-                ->references('id')->on(Models::table('roles'));
+            $table->foreignIdFor(Models::table('roles'), 'role_id');
         });
 
         Schema::create(Models::table('permissions'), function (Blueprint $table) {
