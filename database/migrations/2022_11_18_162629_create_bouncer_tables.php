@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Abilities;
 use App\Models\Role;
 use Silber\Bouncer\Database\Models;
 
@@ -59,7 +60,7 @@ class CreateBouncerTables extends Migration
 
         Schema::create(Models::table('permissions'), function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('ability_id')->index();
+            $table->foreignIdFor(Abilities::class, 'ability_id')->index();
             $table->bigInteger('entity_id')->nullable();
             $table->string('entity_type')->nullable();
             $table->boolean('forbidden')->default(false);
@@ -69,10 +70,6 @@ class CreateBouncerTables extends Migration
                 ['entity_id', 'entity_type', 'scope'],
                 'permissions_entity_index'
             );
-
-            $table->foreign('ability_id')
-                ->references('id')->on(Models::table('abilities'))
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
