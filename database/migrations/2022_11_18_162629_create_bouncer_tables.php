@@ -43,7 +43,7 @@ class CreateBouncerTables extends Migration
 
         Schema::create(Models::table('assigned_roles'), function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('role_id')->index();
+            $table->foreignIdFor(Role::class, 'role_id')->index();
             $table->bigInteger('entity_id');
             $table->string('entity_type');
             $table->bigInteger('restricted_to_id')->nullable();
@@ -55,7 +55,6 @@ class CreateBouncerTables extends Migration
                 'assigned_roles_entity_index'
             );
 
-            $table->foreignIdFor(Role::class, 'role_id');
         });
 
         Schema::create(Models::table('permissions'), function (Blueprint $table) {
