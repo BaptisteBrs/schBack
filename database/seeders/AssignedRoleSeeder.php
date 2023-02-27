@@ -19,6 +19,8 @@ class AssignedRoleSeeder extends Seeder
     {
         $user = User::first();
         Bouncer::assign('admin')->to($user);
+        $user = User::where('login', 'LBERCEGEAY')->first();
+        Bouncer::assign('admin')->to($user);
 
         // DB::table('assigned_roles')->insert([
         //     0 => [
