@@ -273,6 +273,24 @@ class UsersSeeder extends Seeder
                 'player_category' => null,
                 'picture' => null
             ],
+            14 => [
+                'name' => 'Denigot',
+                'firstname' => 'Benoit',
+                'login' => 'BDENIGOT',
+                'email' => null,
+                'password' => null,
+                'phone' => null,
+                'is_actif' => false,
+                'is_bureau' => true,
+                'is_coach' => false,
+                'is_benevole' => false,
+                'is_player' => false,
+                'bureau_fonction' => "Entraineur Général",
+                'birthday' => Carbon::createFromFormat('d/m/Y H:i:s',  '14/01/1988 00:00:00'),
+                'coach_category' => null,
+                'player_category' => null,
+                'picture' => null
+            ],
         ]);
     }
 }
