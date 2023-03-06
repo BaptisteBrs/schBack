@@ -79,7 +79,7 @@ class UsersSeeder extends Seeder
                 'name' => 'Bercegeay',
                 'firstname' => 'Lucas',
                 'login' => 'LBERCEGEAY',
-                'email' => null,
+                'email' => 'lucas.bercegeay@orange.fr',
                 'password' => null,
                 'phone' => null,
                 'is_actif' => true,
