@@ -2508,7 +2508,7 @@ class UsersSeeder extends Seeder
             138 => [
                 'name' => 'Belliot',
                 'firstname' => 'Ewen',
-                'login' => 'EBELLIOT',
+                'login' => 'EWBELLIOT',
                 'email' => null,
                 'password' => null,
                 'phone' => null,
