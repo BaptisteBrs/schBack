@@ -81,7 +81,7 @@ class UsersSeeder extends Seeder
                 'login' => 'LBERCEGEAY',
                 'email' => 'lucas.bercegeay@orange.fr',
                 'password' => null,
-                'phone' => null,
+                'phone' => Hash::make("Herbignac44"),
                 'is_actif' => true,
                 'is_bureau' => true,
                 'is_coach' => false,
