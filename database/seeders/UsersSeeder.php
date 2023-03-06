@@ -2472,7 +2472,7 @@ class UsersSeeder extends Seeder
             136 => [
                 'name' => 'Regardin',
                 'firstname' => 'Thomas',
-                'login' => 'TREGARDIN',
+                'login' => 'THREGARDIN',
                 'email' => null,
                 'password' => null,
                 'phone' => null,
