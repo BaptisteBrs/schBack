@@ -16,7 +16,7 @@ class ArticleController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('index', 'last');
+        $this->middleware('auth:sanctum')->except('index', 'last', 'show');
         $this->repo = new ArticleRepository();
     }
 
@@ -55,11 +55,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        if (Auth::user()->can('view_articles')) {
-
-            return $this->repo->show($id);
-        }
-        return abort(403);
+        return $this->repo->show($id);
     }
 
     /**
