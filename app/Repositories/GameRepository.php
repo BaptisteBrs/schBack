@@ -94,13 +94,6 @@ class GameRepository
         $teams = Team::all();
         $result = [];
 
-        $types = ArticleType::all();
-        foreach($types  as $type){
-            $new = str_replace('png','jpg',$type->picture);
-            $type->picture = $new;
-            $type->save();
-        }
-
         foreach ($teams as $team) {
             $game = $games->firstWhere('team', $team->id);
             if ($game != null) {
