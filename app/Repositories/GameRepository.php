@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\ArticleType;
 use App\Models\Convocation;
 use App\Models\Game;
 use App\Models\Team;
@@ -92,6 +93,13 @@ class GameRepository
         $games = Game::with('type', 'team.category')->where('date', '>=', $date)->where('is_finish', false)->orderBy('date')->with('type', 'team.category')->get();
         $teams = Team::all();
         $result = [];
+
+        $types = ArticleType::all();
+        foreach($types  as $type){
+            $new = str_replace('png','jpg',$type->picture);
+            $type->picture = $new;
+            $type->save();
+        }
 
         foreach ($teams as $team) {
             $game = $games->firstWhere('team', $team->id);
