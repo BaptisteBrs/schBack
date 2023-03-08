@@ -1,7 +1,7 @@
 /node_modules
 /public/build
 /public/hot
-/public/storage
+!/public/storage
 /public/images/article
 /public/images/users
 /public/images/partenaire
