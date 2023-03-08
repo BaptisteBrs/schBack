@@ -73,3 +73,4 @@ Route::get('public/articles/details/{id}', [ArticleController::class, 'show'])->
 Route::get('public/articles/last', [ArticleController::class, 'last'])->name('last_articles');
 Route::get('public/article_types', [ArticleTypeController::class, 'index'])->name('article_types');
 Route::get('public/tags', [TagController::class, 'index'])->name('tags');
+Route::get('public/boutique/download', [BoutiqueController::class, 'downloadBonCommande'])->name('downloadBonCommande');

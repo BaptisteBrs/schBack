@@ -6,6 +6,7 @@ use App\Repositories\BoutiqueRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 use Upload;
 
 class BoutiqueController extends Controller
@@ -17,7 +18,7 @@ class BoutiqueController extends Controller
     public function __construct()
     {
         $this->repo = new BoutiqueRepository();
-        $this->middleware('auth:sanctum')->except('');
+        $this->middleware('auth:sanctum')->except('downloadBonCommande');
     }
 
     /**
@@ -115,5 +116,13 @@ class BoutiqueController extends Controller
         $filename = date('YmdHI') . $file->getClientOriginalName();
         $file->move(public_path('images/' . $folder), $filename);
         return 'images/' . $folder . '/' . $filename;
+    }
+
+    /**
+     * Download bon de commande
+     */
+    public function downloadBonCommande()
+    {
+        return Storage::disk('public')->download('Bon de commande SCH 2022_2023.xlsx');
     }
 }

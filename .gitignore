@@ -5,7 +5,6 @@
 /public/images/article
 /public/images/users
 /public/images/partenaire
-/storage/*.key
 /vendor
 .env
 .env.backup
