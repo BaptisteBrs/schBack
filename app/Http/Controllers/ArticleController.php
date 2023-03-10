@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Upload;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 
 class ArticleController extends Controller
 {
@@ -119,8 +120,7 @@ class ArticleController extends Controller
 
     public function upload(UploadedFile $file, string $folder)
     {
-        $filename = date('YmdHI') . $file->getClientOriginalName();
-        $file->move(public_path('images/' . $folder), $filename);
-        return 'images/' . $folder . '/' . $filename;
+        $storagePath =  Storage::disk('public')->put('images/' . $folder, $file,);
+        return 'storage/' . $storagePath;
     }
 }
