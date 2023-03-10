@@ -6,6 +6,7 @@ use App\Repositories\PartenaireRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Auth;
+use Storage;
 
 class PartenaireController extends Controller
 {
@@ -117,8 +118,7 @@ class PartenaireController extends Controller
 
     public function upload(UploadedFile $file, string $folder)
     {
-        $filename = date('YmdHI') . $file->getClientOriginalName();
-        $file->move(public_path('images/' . $folder), $filename);
-        return 'images/' . $folder . '/' . $filename;
+        $storagePath =  Storage::disk('public')->put('images/' . $folder, $file,);
+        return 'storage/' . $storagePath;
     }
 }
