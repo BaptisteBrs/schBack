@@ -175,7 +175,7 @@ class UserController extends Controller
     {
         $filename = date('YmdHI') . $file->getClientOriginalName();
         $file->move(storage_path('images/' . $folder), $filename);
-        return 'storage/images/' . $folder . '/' . $filename;
+        return 'storage/images/users/' . $filename;
     }
 
     public function checkToken(Request $request)
