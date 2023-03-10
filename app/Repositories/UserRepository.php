@@ -150,8 +150,10 @@ class UserRepository
                 $user->save();
                 return "Modification réalisée avec succès.\r\n Veuillez vous connectez avec vos nouvaux identifants";
             }
+            return $user->code_expired_at;
             return abort(404, "Impossible de modifier votre mot de passe");
         }
+        return $user->code_first_connexion;
         return abort(404, "Impossible de modifier votre mot de passe");
     }
 
