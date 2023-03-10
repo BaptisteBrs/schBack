@@ -19,7 +19,7 @@ deploy:
       - chmod -R o+w storage bootstrap/cache
       - php artisan optimize:clear
       - php artisan migrate
-      - php artisan storage:link
+      #- php artisan storage:link
       - php artisan optimize
       - php artisan up
 
@@ -43,7 +43,7 @@ deploy:
       - chmod -R o+w storage bootstrap/cache
       - php artisan optimize:clear
       - php artisan migrate
-      - php artisan storage:link
+      #- php artisan storage:link
       - php artisan optimize
       - php artisan up
 # uncomment the following lines to configure cron jobs
