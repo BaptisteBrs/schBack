@@ -108,7 +108,7 @@ class UserRepository
     public function update(array $array, int $id)
     {
         $user = User::where('id', $id)->first();
-        $array['password'] = Hash::make('test');
+        $array['password'] = Hash::make('Herbignac44');
         return $this->save($user, $array);
     }
 
