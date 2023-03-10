@@ -108,7 +108,6 @@ class UserRepository
     public function update(array $array, int $id)
     {
         $user = User::where('id', $id)->first();
-        $array['password'] = Hash::make('Herbignac44');
         return $this->save($user, $array);
     }
 
@@ -116,6 +115,9 @@ class UserRepository
     {
         $email = $array['email'];
         $user = User::where('email', $email)->first();
+        if (!$user || !$user->is_actif) {
+            return abort(404, "Rapprocher vous d'un administrateur pour vous connecter!");
+        }
         $user->code_first_connexion = rand(0, 999999999999);
         $now = Carbon::now();
         $user->code_created_at = $now;
@@ -126,7 +128,7 @@ class UserRepository
             return abort(200, "Un mail a été envoyé si votre adresse mail est connue de notre système.");
         }
         try {
-            Mail::to('baptiste.boursin@gmail.com')
+            Mail::to($email)
                 ->send(new ForgotPasswordMail($user));
 
             return "Un mail a été envoyé si votre adresse mail est connue de notre système.";
