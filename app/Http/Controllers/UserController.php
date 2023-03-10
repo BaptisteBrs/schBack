@@ -173,9 +173,8 @@ class UserController extends Controller
 
     public function upload(UploadedFile $file, string $folder)
     {
-        $filename = date('YmdHI') . $file->getClientOriginalName();
-        $file->move(storage_path('images/' . $folder), $filename);
-        return 'storage/images/users/' . $filename;
+        $storagePath =  Storage::disk('public')->put('images/' . $folder, $file,);
+        return 'storage/' . $storagePath;
     }
 
     public function checkToken(Request $request)
