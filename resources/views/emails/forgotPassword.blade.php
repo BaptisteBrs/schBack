@@ -230,7 +230,7 @@
                                                                     <tr>
                                                                         <td class="pink-button text-button"
                                                                             style="background:#e75913; color:#c1cddc; font-family:'Muli', Arial,sans-serif; font-size:14px; line-height:18px; padding:12px 30px; text-align:center; border-radius:0px 22px 22px 22px; font-weight:bold;">
-                                                                            <a href="http://localhost:8080/firstconnexion"
+                                                                            <a href="https://saintcyrherbignacfootball.fr/firstconnexion"
                                                                                 target="_blank" class="link-white"
                                                                                 style="color:#ffffff; text-decoration:none;"><span
                                                                                     class="link-white"
