@@ -10,6 +10,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\PersonalAccessToken;
+use Storage;
 use Str;
 use Upload;
 
@@ -173,7 +174,7 @@ class UserController extends Controller
     public function upload(UploadedFile $file, string $folder)
     {
         $filename = date('YmdHI') . $file->getClientOriginalName();
-        $file->move(public_path('images/' . $folder), $filename);
+        $file->move(storage_path('images/' . $folder), $filename);
         return 'images/' . $folder . '/' . $filename;
     }
 
