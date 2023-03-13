@@ -49,7 +49,7 @@ class UserRepository
             $user->login = $user->login;
         }
 
-        $user->name = $array['name'];
+        $user->name = strtoupper($array['name']);
         $user->firstname = $array['firstname'];
         $user->email = array_key_exists('email', $array) ? $array['email'] : null;
         $user->phone = array_key_exists('phone', $array) ? $array['phone'] : null;
