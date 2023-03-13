@@ -39,7 +39,7 @@ class UserRepository
             $cmp = 0;
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
             if (User::where('login', $login)->count() > 0) {
-                while (User::where()->count > 0) {
+                while (User::where('login', $login)->count() > 0) {
                     $login = $login . str($cmp);
                     $cmp += 1;
                 }
@@ -67,8 +67,7 @@ class UserRepository
         $user->save();
         $user = User::with('roles')->where('id', $user->id)->first();
         if (!$user->isAn('admin')) {
-            $count = $user->roles->count;
-            if ($user->roles != null && $count > 0) {
+            if ($user->roles != null && count($user->roles) > 0) {
                 Bouncer::retract($user->roles->name)->from($user);
                 $abilities = $user->getAbilities();
                 foreach ($abilities as $ability) {
