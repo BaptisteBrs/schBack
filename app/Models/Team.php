@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereLeague($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \App\Models\Category|null $category
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Query\Builder|Team onlyTrashed()
@@ -30,6 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Team withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Team withoutTrashed()
+ * @mixin \Eloquent
  */
 class Team extends Model
 {

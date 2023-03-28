@@ -23,12 +23,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ArticleTag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ArticleTag whereTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ArticleTag whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Query\Builder|ArticleTag onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ArticleTag whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|ArticleTag withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ArticleTag withoutTrashed()
+ * @mixin \Eloquent
  */
 class ArticleTag extends Model
 {

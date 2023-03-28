@@ -20,12 +20,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Query\Builder|Tag onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Tag withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Tag withoutTrashed()
+ * @mixin \Eloquent
  */
 class Tag extends Model
 {

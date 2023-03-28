@@ -25,7 +25,6 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @mixin \Eloquent
  * @property int $id
  * @property string $name
  * @property string $email
@@ -80,6 +79,13 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @property string $login
  * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLogin($value)
+ * @property string|null $code_first_connexion
+ * @property string|null $code_created_at
+ * @property string|null $code_expired_at
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCodeCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCodeExpiredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCodeFirstConnexion($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {

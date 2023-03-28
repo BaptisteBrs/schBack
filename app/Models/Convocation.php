@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereGame($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $players
  * @property-read int|null $players_count
@@ -31,6 +30,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Convocation withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Convocation withoutTrashed()
+ * @property string $date
+ * @property \App\Models\Category|null $category
+ * @property \App\Models\Team|null $team
+ * @property bool $no_game
+ * @property string|null $comment
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ConvocationPlayer> $convocation_players
+ * @property-read int|null $convocation_players_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereNoGame($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereTeam($value)
+ * @mixin \Eloquent
  */
 class Convocation extends Model
 {

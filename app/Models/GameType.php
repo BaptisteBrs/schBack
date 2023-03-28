@@ -22,12 +22,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|GameType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameType whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameType whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Query\Builder|GameType onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|GameType whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|GameType withTrashed()
  * @method static \Illuminate\Database\Query\Builder|GameType withoutTrashed()
+ * @mixin \Eloquent
  */
 class GameType extends Model
 {
