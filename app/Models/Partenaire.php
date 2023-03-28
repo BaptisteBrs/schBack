@@ -34,12 +34,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Partenaire whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Partenaire whereWebsite($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Partenaire whereZip($value)
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Query\Builder|Partenaire onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Partenaire whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Partenaire withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Partenaire withoutTrashed()
+ * @mixin \Eloquent
  */
 class Partenaire extends Model
 {

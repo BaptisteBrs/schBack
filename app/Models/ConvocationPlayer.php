@@ -29,12 +29,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ConvocationPlayer whereIsShirt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ConvocationPlayer wherePlayer($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ConvocationPlayer whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Query\Builder|ConvocationPlayer onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ConvocationPlayer whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|ConvocationPlayer withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ConvocationPlayer withoutTrashed()
+ * @mixin \Eloquent
  */
 class ConvocationPlayer extends Model
 {

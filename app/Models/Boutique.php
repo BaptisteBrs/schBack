@@ -29,12 +29,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Boutique wherePriceJR($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Boutique whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Boutique whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Query\Builder|Boutique onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Boutique whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Boutique withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Boutique withoutTrashed()
+ * @mixin \Eloquent
  */
 class Boutique extends Model
 {

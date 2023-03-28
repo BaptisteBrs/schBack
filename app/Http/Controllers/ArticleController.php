@@ -68,7 +68,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->can('udpate_articles')) {
+        if (Auth::user()->can('update_articles')) {
 
             $array = $request->all();
             return $this->repo->update($array, $id);

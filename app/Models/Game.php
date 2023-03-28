@@ -48,7 +48,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereSchGoals($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property \App\Models\Team|null $team
  * @property int $game
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -59,6 +58,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereTeam($value)
  * @method static \Illuminate\Database\Query\Builder|Game withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Game withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Game whereType($value)
+ * @mixin \Eloquent
  */
 class Game extends Model
 {

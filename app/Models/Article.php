@@ -33,7 +33,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Article whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Article whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Article whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property string|null $picture
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
@@ -43,6 +42,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Article wherePicture($value)
  * @method static \Illuminate\Database\Query\Builder|Article withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Article withoutTrashed()
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ArticlePictures> $pictures
+ * @property-read int|null $pictures_count
+ * @mixin \Eloquent
  */
 class Article extends Model
 {
@@ -59,5 +61,10 @@ class Article extends Model
     public function tags()
     {
         return $this->hasManyThrough(Tag::class, ArticleTag::class, 'article', 'id', 'id', 'tag');
+    }
+
+    public function pictures()
+    {
+        return $this->hasMany(ArticlePictures::class, 'article_id', 'id');
     }
 }
