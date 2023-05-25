@@ -17,7 +17,7 @@ class ArticleRepository
 
     public function all()
     {
-        return Article::with('type', 'tags', 'pictures')->get();
+        return Article::with('type', 'tags', 'pictures')->orderBy('id', 'desc')->get();
     }
 
     public function save(Article $article, array $array, $is_create = false): Article
