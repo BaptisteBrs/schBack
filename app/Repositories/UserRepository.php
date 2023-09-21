@@ -45,7 +45,7 @@ class UserRepository
             }
 
             $user->login = $login;
-            dd($user->login);
+            return $user->login;
         } else {
             $user->login = $user->login;
         }
