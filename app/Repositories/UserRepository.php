@@ -37,13 +37,13 @@ class UserRepository
         if ($user->login == null) {
             $is_create = true;
             $cmp = 0;
+            $allLogin = User::pluck('login')->toArray();
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
-            if (User::where('login', $login)->count() > 0) {
-                while (User::where('login', $login)->count() > 0) {
-                    $login = $login . str($cmp);
-                    $cmp += 1;
-                }
+            while (in_array($login, $allLogin)) {
+                $login = $login . str($cmp);
+                $cmp += 1;
             }
+
             $user->login = $login;
         } else {
             $user->login = $user->login;
