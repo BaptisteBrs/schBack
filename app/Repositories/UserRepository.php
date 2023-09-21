@@ -37,7 +37,7 @@ class UserRepository
         if ($user->login == null) {
             $is_create = true;
             $cmp = 1;
-            $allLogin = User::withTrashed()->get('login');
+            $allLogin = User::withTrashed()->pluck('login')->toArray();
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
             return $allLogin = User::withTrashed()->get('login')->toArray();
             return json_encode(in_array($login, $allLogin));
