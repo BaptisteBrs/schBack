@@ -38,8 +38,8 @@ class UserRepository
             $is_create = true;
             $cmp = 1;
             $allLogin = User::withTrashed()->get('login')->toArray();
-            return $allLogin;
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
+            return in_array($login, $allLogin);
             while (in_array($login, $allLogin)) {
                 $login = $login . str($cmp);
                 $cmp += 1;
