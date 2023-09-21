@@ -37,7 +37,7 @@ class UserRepository
         if ($user->login == null) {
             $is_create = true;
             $cmp = 1;
-            $allLogin = User::get('login')->toArray();
+            $allLogin = User::withTrashed()->get('login')->toArray();
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
             while (in_array($login, $allLogin)) {
                 $login = $login . str($cmp);
@@ -45,7 +45,6 @@ class UserRepository
             }
 
             $user->login = $login;
-            return $user->login;
         } else {
             $user->login = $user->login;
         }
