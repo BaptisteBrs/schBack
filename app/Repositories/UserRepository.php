@@ -39,7 +39,7 @@ class UserRepository
             $cmp = 1;
             $allLogin = User::withTrashed()->get('login')->toArray();
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
-            return in_array($login, $allLogin);
+            return json_encode(in_array($login, $allLogin));
             while (in_array($login, $allLogin)) {
                 $login = $login . str($cmp);
                 $cmp += 1;
