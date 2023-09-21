@@ -36,8 +36,8 @@ class UserRepository
         $is_create = false;
         if ($user->login == null) {
             $is_create = true;
-            $cmp = 0;
-            $allLogin = User::pluck('login')->toArray();
+            $cmp = 1;
+            $allLogin = User::get('login')->toArray();
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
             while (in_array($login, $allLogin)) {
                 $login = $login . str($cmp);
@@ -45,6 +45,7 @@ class UserRepository
             }
 
             $user->login = $login;
+            dd($user->login);
         } else {
             $user->login = $user->login;
         }
