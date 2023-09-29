@@ -8,6 +8,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use Upload;
+use Response;
+
 
 class BoutiqueController extends Controller
 {
@@ -123,6 +125,7 @@ class BoutiqueController extends Controller
      */
     public function downloadBonCommande()
     {
-        return Storage::disk('public')->download('Bon de commande SCH 2023_2024.xlsx', 'Bon de commande SCH 2023_2024.xlsx');
+        $filepath = public_path('documents/Bon de commande SCH 2023_2024.xlsx');
+        return Response::download($filepath);
     }
 }
