@@ -123,6 +123,6 @@ class BoutiqueController extends Controller
      */
     public function downloadBonCommande()
     {
-        return Storage::disk('public')->download('Bon de commande SCH 2022_2023.xlsx', 'Bon de commande SCH 2022_2023.xlsx');
+        return Storage::disk('public')->download('Bon de commande SCH 2023_2024.xlsx', 'Bon de commande SCH 2023_2024.xlsx');
     }
 }
