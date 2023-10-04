@@ -62,7 +62,7 @@ class UserRepository
         $user->birthday = array_key_exists('birthday', $array) ? $array['birthday'] : null;
         $user->coach_category = array_key_exists('coach_category', $array) ? $array['coach_category'] : null;
         $user->player_category = array_key_exists('player_category', $array) ? $array['player_category'] : null;
-        dd($user);
+        return $user;
         $user->save();
         $user = User::with('roles')->where('id', $user->id)->first();
         if (!$user->isAn('admin')) {
