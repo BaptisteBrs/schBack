@@ -38,7 +38,7 @@ class UserRepository
             $is_create = true;
             $cmp = 1;
             $login = strtoupper($array['firstname'][0]) . Str::ucfirst($array['name']);
-            while (User::withTrashed()->where('login',$login)->count() > 0) {
+            while (User::withTrashed()->where('login', $login)->count() > 0) {
                 $login = $login . str($cmp);
                 $cmp += 1;
             }
@@ -65,9 +65,10 @@ class UserRepository
         $user->save();
         $user = User::with('roles')->where('id', $user->id)->first();
         if (!$user->isAn('admin')) {
-            return $user;
             if ($user->roles != null && count($user->roles) > 0) {
-                Bouncer::retract($user->roles->name)->from($user);
+                foreach ($user->roles as $role) {
+                    Bouncer::retract($role->name)->from($user);
+                }
                 $abilities = $user->getAbilities();
                 foreach ($abilities as $ability) {
                     Bouncer::disallow($user)->to($ability->name);
@@ -85,8 +86,6 @@ class UserRepository
                 }
             }
         }
-        return $user;
-
         return User::where('id', $user->id)->with('coach_category', 'player_category')->first();
     }
 
