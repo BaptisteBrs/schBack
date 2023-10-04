@@ -75,7 +75,6 @@ class UserRepository
                 }
                 Bouncer::assign($array['role'])->to($user);
                 $role = Role::with('abilities')->where('name', $array['role'])->first();
-                return $role;
                 foreach ($role->abilities as $ability) {
                     Bouncer::allow($user)->to($ability->name);
                 }
