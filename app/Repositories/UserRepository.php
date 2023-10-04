@@ -65,6 +65,7 @@ class UserRepository
         $user->save();
         $user = User::with('roles')->where('id', $user->id)->first();
         if (!$user->isAn('admin')) {
+            return $user;
             if ($user->roles != null && count($user->roles) > 0) {
                 Bouncer::retract($user->roles->name)->from($user);
                 $abilities = $user->getAbilities();
