@@ -13,7 +13,7 @@ class GameController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('next', 'last');
+        $this->middleware('auth:sanctum')->except('next', 'last','index');
         $this->repo = new GameRepository();
     }
 
