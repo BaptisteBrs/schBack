@@ -32,8 +32,8 @@ class GameRepository
         $game->date = $array['date'];
         $game->place = array_key_exists('place', $array) ? $array['place'] : false;
         $game->opponent = $array['opponent'];
-        $game->sch_goals = array_key_exists('sch_goals', $array) ? $array['sch_goals'] : 0;
-        $game->opponent_goals = array_key_exists('opponent_goals', $array) ? $array['opponent_goals'] : 0;
+        $game->sch_goals = $array['sch_goals'] != null ? $array['sch_goals'] : 0;
+        $game->opponent_goals = $array['opponent_goals'] != null ? $array['opponent_goals'] : 0;
         $game->team = $array['team'];
         $game->type = $array['type'];
         $game->hour = $array['hour'];
