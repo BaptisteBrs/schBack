@@ -60,14 +60,18 @@ class TeamRepository
 
     public function noGameTeams(string $date)
     {
-
+        $category = Auth::user()->coach_category;
         $date_min = new DateTime($date);
         $date_min->modify("-1 day");
         $date_max = new DateTime($date);
         $date_max->modify("+1 day");
 
         $convocations = Convocation::where('date', '>=', $date_min)->where('date', '<=', $date_max)->with('team')->get();
-        $teams = Team::get();
+        if($category == null){
+            $teams = Team::get();
+        }else{
+            $teams = Team::wheer('category',$category)->get();
+        }
 
         $result = [];
 
