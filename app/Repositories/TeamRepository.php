@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Convocation;
 use App\Models\Game;
 use App\Models\Team;
+use Auth;
 use DateTime;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 //use Your Model
@@ -16,7 +17,12 @@ class TeamRepository
 {
     public function all()
     {
-        return Team::with('category')->get();
+        if(Auth::user()== null || Auth::user()->coach_category == null){
+            return Team::with('category')->get();
+        }else{
+            $category = Auth::user()->coach_category;
+            return Team::with('category')->where('category',$category)->get();
+        }
     }
 
     public function save(Team $team, array $array): Team
