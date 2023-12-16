@@ -21,7 +21,7 @@ class GameRepository
 {
     public function all()
     {
-        return(Auth::user()->is_a('admin'));
+        return(Auth::user());
 
         if (Auth::user()->is_a('admin')) {
             return Game::with('type', 'team.category')->orderBy('date', 'desc')->get();
