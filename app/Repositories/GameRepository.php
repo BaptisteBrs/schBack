@@ -6,6 +6,8 @@ use App\Models\ArticleType;
 use App\Models\Convocation;
 use App\Models\Game;
 use App\Models\Team;
+use App\Models\User;
+use Auth;
 use Carbon\Carbon;
 use Date;
 use DateTime;
@@ -19,7 +21,12 @@ class GameRepository
 {
     public function all()
     {
-        return Game::with('type', 'team.category')->orderBy('date', 'desc')->get();
+        if (Auth::user()->is_a('admin')) {
+            return Game::with('type', 'team.category')->orderBy('date', 'desc')->get();
+        }else{
+            $category = Auth::user()->coach_category;
+            return Game::with('type', 'team.category')->where('team.category',$category)->orderBy('date', 'desc')->get();
+        }
     }
 
     public function allNotFinish()
