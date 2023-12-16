@@ -28,7 +28,7 @@ class GameRepository
             $category = Auth::user()->coach_category;
             return Game::with('type', 'team.category')
             ->whereHas('team', function ($query) use ($category) {
-                $query->where('category_id', $category);
+                $query->where('category', $category);
             })
             ->orderBy('date', 'desc')->get();
         }
