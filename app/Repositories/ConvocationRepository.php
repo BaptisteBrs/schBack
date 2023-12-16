@@ -49,6 +49,8 @@ class ConvocationRepository
         $convocation->comment = array_key_exists('comment', $array) ? $array['comment'] : null;
         $convocation->save();
 
+        $players_before_in_list = ConvocationPlayer::where('convocation',$convocation->id)->delete();
+
         foreach ($array['players'] as $player_conv) {
             $convocation_player = new ConvocationPlayer();
             $convocation_player->player = $player_conv['player'];
