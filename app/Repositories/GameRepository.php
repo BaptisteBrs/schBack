@@ -24,19 +24,32 @@ class GameRepository
 
         if (Auth::user()->coach_category == null) {
             return Game::with('type', 'team.category')->orderBy('date', 'desc')->get();
-        }else{
+        } else {
             $category = Auth::user()->coach_category;
             return Game::with('type', 'team.category')
-            ->whereHas('team', function ($query) use ($category) {
-                $query->where('category', $category);
-            })
-            ->orderBy('date', 'desc')->get();
+                ->whereHas('team', function ($query) use ($category) {
+                    $query->where('category', $category);
+                })
+                ->orderBy('date', 'desc')->get();
         }
     }
 
     public function allNotFinish()
     {
-        return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>', Carbon::today())->orderBy('date', 'asc')->get();
+        if (Auth::user()->coach_category == null) {
+            return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>', Carbon::today())->orderBy('date', 'asc')->get();
+        }else{
+            $category = Auth::user()->coach_category;
+
+            return Game::with('type', 'team.category')
+            ->whereHas('team', function ($query) use ($category) {
+                $query->where('category', $category);
+            })
+            ->where('is_finish', false)
+            ->where('date', '>', Carbon::today())
+            ->orderBy('date', 'asc')->get();
+
+        }
     }
 
     public function save(Game $game, array $array): Game
