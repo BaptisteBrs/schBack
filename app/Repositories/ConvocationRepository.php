@@ -7,6 +7,7 @@ use App\Models\ConvocationPlayer;
 use App\Models\Game;
 use App\Models\Team;
 use App\Models\User;
+use Auth;
 use Carbon\Carbon;
 use Date;
 use DateTime;
@@ -20,7 +21,19 @@ class ConvocationRepository
 {
     public function all()
     {
-        return Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->orderby('date', 'desc')->get();
+        if (Auth::user() == null || Auth::user()->coach_category == null) {
+            return Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')
+                ->orderby('date', 'desc')
+                ->get();
+        } else {
+            $category = Auth::user()->coach_category;
+            return Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')
+                ->whereHas('team', function ($query) use ($category) {
+                    $query->where('category', $category);
+                })
+                ->orderby('date', 'desc')
+                ->get();
+        }
     }
 
 
