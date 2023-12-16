@@ -26,7 +26,11 @@ class GameRepository
             return Game::with('type', 'team.category')->orderBy('date', 'desc')->get();
         }else{
             $category = Auth::user()->coach_category;
-            return Game::with('type', 'team.category')->where('team.category',$category)->orderBy('date', 'desc')->get();
+            return Game::with('type', 'team.category')
+            ->whereHas('team', function ($query) use ($category) {
+                $query->where('category_id', $category);
+            })
+            ->orderBy('date', 'desc')->get();
         }
     }
 
