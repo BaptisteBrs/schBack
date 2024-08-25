@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('users/upload', [UserController::class, 'uploadFile'])->name('users-upload');
     Route::get('users/players/{category}', [UserController::class, 'playersByCategory'])->name('playersByCategory');
+    Route::get('users/update/a/{id}', [UserController::class, 'setAdmin'])->name('setAdmin');
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('articles', ArticleController::class);
@@ -65,6 +66,7 @@ Route::post('public/update/password', [UserController::class, 'updatePassword'])
 Route::get('public/categories', [CategoryController::class, 'index'])->name('categories');
 Route::get('public/last', [GameController::class, 'last'])->name('last');
 Route::get('public/next', [GameController::class, 'next'])->name('next');
+Route::get('public/all/next', [GameController::class, 'allNext'])->name('allNext');
 Route::get('public/partenaires', [PartenaireController::class, 'index'])->name('partenaire');
 Route::get('public/organigramme', [UserController::class, 'organigramme'])->name('organigramme');
 Route::get('public/convocations/{id}', [ConvocationController::class, 'lastByCategory'])->name('convocationsByCategory');

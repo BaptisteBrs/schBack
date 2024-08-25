@@ -85,6 +85,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCodeCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCodeExpiredAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCodeFirstConnexion($value)
+ * @property bool|null $is_admin
  * @mixin \Eloquent
  */
 class User extends Authenticatable

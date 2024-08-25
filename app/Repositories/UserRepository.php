@@ -23,7 +23,11 @@ class UserRepository
 {
     public function all()
     {
-        return User::with('coach_category', 'player_category')->get();
+        $users =  User::with('coach_category', 'player_category')->get();
+        foreach($users as $user){
+            $user->is_admin = $user->isAn('admin');
+        }
+        return $users;
     }
 
     public function alllogin()
@@ -220,5 +224,32 @@ class UserRepository
             'token_type' => 'Bearer',
             'abilities' => $array_abilities
         ]);
+    }
+
+    public function setAdmin(int $id)
+    {
+
+        $user = User::with('roles')->where('id', $id)->first();
+
+        if ($user->roles != null && count($user->roles) > 0) {
+            foreach ($user->roles as $role) {
+                Bouncer::retract($role->name)->from($user);
+            }
+            $abilities = $user->getAbilities();
+            foreach ($abilities as $ability) {
+                Bouncer::disallow($user)->to($ability->name);
+            }
+            Bouncer::assign('admin')->to($user);
+            $role = Role::with('abilities')->where('name', 'admin')->first();
+            foreach ($role->abilities as $ability) {
+                Bouncer::allow($user)->to($ability->name);
+            }
+        } else {
+            Bouncer::assign('admin')->to($user);
+            $role = Role::with('abilities')->where('name', 'admin')->first();
+            foreach ($role->abilities as $ability) {
+                Bouncer::allow($user)->to($ability->name);
+            }
+        }
     }
 }
