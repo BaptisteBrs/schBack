@@ -186,7 +186,7 @@ class UserController extends Controller
     }
 
     public function setAdmin(int $id){
-        if(Auth::user()->is_a('admin')){
+        if(Auth::user()->isAn('admin')){
             return $this->repo->setAdmin($id);
         }
     }
