@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\ArticleType;
+use App\Models\Category;
 use App\Models\Convocation;
 use App\Models\Game;
 use App\Models\Team;
@@ -36,19 +37,18 @@ class GameRepository
 
     public function allNotFinish()
     {
-        if (Auth::user()->coach_category == null) {
+        if (Auth::user()->coach_category == null || Auth::user()->isAn('admin')) {
             return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>', Carbon::today())->orderBy('date', 'asc')->get();
-        }else{
+        } else {
             $category = Auth::user()->coach_category;
 
             return Game::with('type', 'team.category')
-            ->whereHas('team', function ($query) use ($category) {
-                $query->where('category', $category);
-            })
-            ->where('is_finish', false)
-            ->where('date', '>', Carbon::today())
-            ->orderBy('date', 'asc')->get();
-
+                ->whereHas('team', function ($query) use ($category) {
+                    $query->where('category', $category);
+                })
+                ->where('is_finish', false)
+                ->where('date', '>', Carbon::today())
+                ->orderBy('date', 'asc')->get();
         }
     }
 
