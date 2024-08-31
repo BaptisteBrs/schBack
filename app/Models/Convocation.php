@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereNoGame($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereTeam($value)
+ * @property boolean|null $is_cacher
  * @mixin \Eloquent
  */
 class Convocation extends Model
