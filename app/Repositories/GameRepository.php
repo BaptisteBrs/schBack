@@ -23,7 +23,7 @@ class GameRepository
     public function all()
     {
 
-        if (Auth::user()->coach_category == null) {
+        if (Auth::user()->coach_category == null || Auth::user()->isAn('admin')) {
             return Game::with('type', 'team.category')->orderBy('date', 'desc')->get();
         } else {
             $category = Auth::user()->coach_category;
@@ -38,7 +38,7 @@ class GameRepository
     public function allNotFinish()
     {
         if (Auth::user()->coach_category == null || Auth::user()->isAn('admin')) {
-            return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>', Carbon::today())->orderBy('date', 'asc')->get();
+            return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>=', Carbon::today())->orderBy('date', 'asc')->get();
         } else {
             $category = Auth::user()->coach_category;
 
