@@ -21,7 +21,7 @@ class ConvocationRepository
 {
     public function all()
     {
-        if (Auth::user() == null || Auth::user()->coach_category == null) {
+        if (Auth::user() == null || Auth::user()->coach_category == null || Auth::user()->isAn('admin')) {
             return Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')
                 ->orderby('date', 'desc')
                 ->get();
@@ -50,7 +50,7 @@ class ConvocationRepository
         $convocation->is_cacher = array_key_exists('is_cacher', $array) ? $array['is_cacher'] : null;
         $convocation->save();
 
-        $players_before_in_list = ConvocationPlayer::where('convocation',$convocation->id)->delete();
+        $players_before_in_list = ConvocationPlayer::where('convocation', $convocation->id)->delete();
 
         foreach ($array['players'] as $player_conv) {
             $convocation_player = new ConvocationPlayer();
@@ -95,7 +95,7 @@ class ConvocationRepository
     {
         $teams = Team::where('category', $category)->get();
         $date = now()->toDateString('Y-m-d');
-        $convocations = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('category', $category)->where('date', '>=', $date)->where('is_cacher',false)->orderBy('date', 'asc')->get();
+        $convocations = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('category', $category)->where('date', '>=', $date)->where('is_cacher', false)->orderBy('date', 'asc')->get();
 
         $result = [];
         foreach ($teams as $team) {
@@ -104,7 +104,7 @@ class ConvocationRepository
             if ($convocation == null) {
                 $date = now();
                 $date->subDays(7);
-                $convocation = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('team', $team->id)->where('date', '>=', $date)->where('is_cacher',false)->orderBy('date', 'asc')->first();
+                $convocation = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('team', $team->id)->where('date', '>=', $date)->where('is_cacher', false)->orderBy('date', 'asc')->first();
             }
 
             if ($convocation != null) {
