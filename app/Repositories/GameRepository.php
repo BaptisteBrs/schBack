@@ -37,12 +37,14 @@ class GameRepository
 
     public function allNotFinish()
     {
+
         if (Auth::user()->coach_category == null || Auth::user()->isAn('admin')) {
             return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>=', Carbon::today())->orderBy('date', 'asc')->get();
+            $games = Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>=', Carbon::today())->orderBy('date', 'asc')->get();
         } else {
             $category = Auth::user()->coach_category;
 
-            return Game::with('type', 'team.category')
+            $games = Game::with('type', 'team.category')
                 ->whereHas('team', function ($query) use ($category) {
                     $query->where('category', $category);
                 })
@@ -50,6 +52,12 @@ class GameRepository
                 ->where('date', '>', Carbon::today())
                 ->orderBy('date', 'asc')->get();
         }
+        $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get();
+        $gamesInConvocations = array_column($convocations, 'game');
+        $filtered_matchs = array_filter($games, function ($match) use ($gamesInConvocations) {
+            return !in_array($match['id'], $gamesInConvocations);
+        });
+        return $filtered_matchs;
     }
 
     public function save(Game $game, array $array): Game
