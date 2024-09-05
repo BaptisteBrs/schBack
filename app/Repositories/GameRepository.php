@@ -51,8 +51,8 @@ class GameRepository
                 ->where('date', '>', Carbon::today())
                 ->orderBy('date', 'asc')->get();
         }
-        $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get()->toArray();
-        $gamesInConvocations = array_column($convocations, 'game');
+        $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get();
+        $gamesInConvocations = array_column($convocations->toArray(), 'game');
         $filtered_matchs = array_filter($games, function ($match) use ($gamesInConvocations) {
             return !in_array($match['id'], $gamesInConvocations);
         });
