@@ -57,6 +57,7 @@ class GameRepository
             return !in_array($match['id'], $gamesInConvocations);
         });
         return $filtered_matchs;
+        // $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get();
     }
 
     public function save(Game $game, array $array): Game
