@@ -39,7 +39,6 @@ class GameRepository
     {
 
         if (Auth::user()->coach_category == null || Auth::user()->isAn('admin')) {
-            return Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>=', Carbon::today())->orderBy('date', 'asc')->get();
             $games = Game::with('type', 'team.category')->where('is_finish', false)->where('date', '>=', Carbon::today())->orderBy('date', 'asc')->get();
         } else {
             $category = Auth::user()->coach_category;
@@ -52,7 +51,7 @@ class GameRepository
                 ->where('date', '>', Carbon::today())
                 ->orderBy('date', 'asc')->get();
         }
-        $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get();
+        $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get()->toArray();
         $gamesInConvocations = array_column($convocations, 'game');
         $filtered_matchs = array_filter($games, function ($match) use ($gamesInConvocations) {
             return !in_array($match['id'], $gamesInConvocations);
