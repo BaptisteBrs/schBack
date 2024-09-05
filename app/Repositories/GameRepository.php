@@ -51,13 +51,12 @@ class GameRepository
                 ->where('date', '>', Carbon::today())
                 ->orderBy('date', 'asc')->get();
         }
-        $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get();
-        $gamesInConvocations = array_column($convocations->toArray(), 'game');
-        $filtered_matchs = array_filter($games, function ($match) use ($gamesInConvocations) {
-            return !in_array($match['id'], $gamesInConvocations);
-        });
-        return $filtered_matchs;
         // $convocations = Convocation::whereIn('game', array_column($games, 'id'))->get();
+        // $gamesInConvocations = array_column($convocations->toArray(), 'game');
+        // $filtered_matchs = array_filter($games, function ($match) use ($gamesInConvocations) {
+        //     return !in_array($match['id'], $gamesInConvocations);
+        // });
+        return $games;
     }
 
     public function save(Game $game, array $array): Game
