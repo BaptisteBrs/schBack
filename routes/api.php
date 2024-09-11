@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('users/upload', [UserController::class, 'uploadFile'])->name('users-upload');
     Route::get('users/players/{category}', [UserController::class, 'playersByCategory'])->name('playersByCategory');
+    Route::get('users/coachs/{category}', [UserController::class, 'coachsByCategory'])->name('coachsByCategory');
     Route::get('users/update/a/{id}', [UserController::class, 'setAdmin'])->name('setAdmin');
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);

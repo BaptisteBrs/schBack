@@ -43,6 +43,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereNoGame($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereTeam($value)
  * @property boolean|null $is_cacher
+ * @property int|null $responsable_id
  * @mixin \Eloquent
  */
 class Convocation extends Model
@@ -60,6 +61,11 @@ class Convocation extends Model
     public function game()
     {
         return $this->belongsTo(Game::class, 'game');
+    }
+
+    public function responsable()
+    {
+        return $this->belongsTo(User::class, 'responsable_id');
     }
 
     public function team()

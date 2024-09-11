@@ -202,6 +202,11 @@ class UserRepository
         return User::with('player_category')->where('is_player', true)->where('player_category', $category)->orderBy('name', 'asc')->get();
     }
 
+    public function coachsByCategory(int $category)
+    {
+        return User::with('coach_category')->where('is_coach', true)->where('coach_category', $category)->orderBy('name', 'asc')->get();
+    }
+
     public function login(array $array)
     {
         $user = User::firstWhere('email', $array['email']);

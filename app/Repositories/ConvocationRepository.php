@@ -48,6 +48,7 @@ class ConvocationRepository
         $convocation->no_game = array_key_exists('no_game', $array) ? $array['no_game'] : false;
         $convocation->comment = array_key_exists('comment', $array) ? $array['comment'] : null;
         $convocation->is_cacher = array_key_exists('is_cacher', $array) ? $array['is_cacher'] : null;
+        $convocation->responsable_id = array_key_exists('responsable_id', $array) ? $array['responsable_id'] : null;
         $convocation->save();
 
         $players_before_in_list = ConvocationPlayer::where('convocation', $convocation->id)->delete();
@@ -95,7 +96,7 @@ class ConvocationRepository
     {
         $teams = Team::where('category', $category)->get();
         $date = now()->toDateString('Y-m-d');
-        $convocations = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('category', $category)->where('date', '>=', $date)->where('is_cacher', false)->orderBy('date', 'asc')->get();
+        $convocations = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category', 'responsable')->where('category', $category)->where('date', '>=', $date)->where('is_cacher', false)->orderBy('date', 'asc')->get();
 
         $result = [];
         foreach ($teams as $team) {
@@ -104,7 +105,7 @@ class ConvocationRepository
             if ($convocation == null) {
                 $date = now();
                 $date->subDays(7);
-                $convocation = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category')->where('team', $team->id)->where('date', '>=', $date)->where('is_cacher', false)->orderBy('date', 'asc')->first();
+                $convocation = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category', 'responsable')->where('team', $team->id)->where('date', '>=', $date)->where('is_cacher', false)->orderBy('date', 'asc')->first();
             }
 
             if ($convocation != null) {

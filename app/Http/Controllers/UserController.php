@@ -154,6 +154,11 @@ class UserController extends Controller
     {
         return $this->repo->playersByCategory($category);
     }
+    /**function for coachs by categories */
+    public function coachsByCategory(int $category)
+    {
+        return $this->repo->coachsByCategory($category);
+    }
 
     /**
      * Save file image
@@ -185,8 +190,9 @@ class UserController extends Controller
         return false;
     }
 
-    public function setAdmin(int $id){
-        if(Auth::user()->isAn('admin')){
+    public function setAdmin(int $id)
+    {
+        if (Auth::user()->isAn('admin')) {
             return $this->repo->setAdmin($id);
         }
     }
