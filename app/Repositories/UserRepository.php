@@ -24,7 +24,7 @@ class UserRepository
     public function all()
     {
         $users =  User::with('coach_category', 'player_category')->get();
-        foreach($users as $user){
+        foreach ($users as $user) {
             $user->is_admin = $user->isAn('admin');
         }
         return $users;
@@ -181,9 +181,9 @@ class UserRepository
     public function organigramme()
     {
         $result = [];
-        $bureau = User::where('is_bureau', true)->get();
-        $coach = User::with('coach_category')->where('is_coach', true)->get();
-        $beneveoles = User::where('is_benevole', true)->get();
+        $bureau = User::where('is_bureau', true)->orderBy('name', 'asc')->get();
+        $coach = User::with('coach_category')->orderBy('name', 'asc')->where('is_coach', true)->get();
+        $beneveoles = User::where('is_benevole', true)->orderBy('name', 'asc')->get();
 
         $result['bureau'] = $bureau;
         $result['coach'] = $coach;
