@@ -43,8 +43,7 @@ class TagRepository
 
     public function delete($id)
     {
-        $articles_tags = ArticleTag::where('tag',$id)->get();
-        $articles_tags->delete();
+        ArticleTag::where('tag', $id)->delete();
         $tag = Tag::where('id', $id)->first();
         $tag->delete();
         return $tag;
