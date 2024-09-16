@@ -97,9 +97,9 @@ class ConvocationController extends Controller
     }
 
 
-    public function lastByCategory(int $category)
+    public function lastByCategory(int $category, string $code)
     {
-        return $this->repo->lastByCategory($category);
+        return $this->repo->lastByCategory($category, $code);
     }
 
     public function selectedPlayersByCategory(string $date)

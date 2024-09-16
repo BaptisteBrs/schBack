@@ -19,6 +19,8 @@ use DateTime;
  */
 class ConvocationRepository
 {
+
+    const CODE = "9K34L7";
     public function all()
     {
         if (Auth::user() == null || Auth::user()->coach_category == null || Auth::user()->isAn('admin')) {
@@ -94,6 +96,9 @@ class ConvocationRepository
 
     public function lastByCategory(int $category, int $code = null)
     {
+        if ($category == 1 && $code != $this::CODE) {
+            return abort(404);
+        }
         $teams = Team::where('category', $category)->get();
         $date = now()->toDateString('Y-m-d');
         $convocations = Convocation::with('convocation_players.player', 'game.team', 'game.type', 'team', 'category', 'responsable')->where('category', $category)->where('date', '>=', $date)->where('is_cacher', false)->orderBy('date', 'asc')->get();
