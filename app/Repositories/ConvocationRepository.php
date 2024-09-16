@@ -90,11 +90,11 @@ class ConvocationRepository
     {
         $convocation = Convocation::where('id', $id)->first();
         $convocation->delete();
-        return $convocation;
+        return $convocation;    
     }
 
 
-    public function lastByCategory(int $category, int $code = null)
+    public function lastByCategory(int $category, string $code = null)
     {
         if ($category == 1 && $code != $this::CODE) {
             return abort(404);
