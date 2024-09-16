@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\ArticleTag;
 use App\Models\Tag;
 
 //use Your Model
@@ -42,6 +43,8 @@ class TagRepository
 
     public function delete($id)
     {
+        $articles_tags = ArticleTag::where('tag',$id)->get();
+        $articles_tags->delete();
         $tag = Tag::where('id', $id)->first();
         $tag->delete();
         return $tag;
