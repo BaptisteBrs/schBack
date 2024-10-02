@@ -51,6 +51,7 @@ class ConvocationRepository
         $convocation->comment = array_key_exists('comment', $array) ? $array['comment'] : null;
         $convocation->is_cacher = array_key_exists('is_cacher', $array) ? $array['is_cacher'] : null;
         $convocation->responsable_id = array_key_exists('responsable_id', $array) ? $array['responsable_id'] : null;
+        $convocation->texte = array_key_exists('texte', $array) ? $array['texte'] : null;
         $convocation->save();
 
         $players_before_in_list = ConvocationPlayer::where('convocation', $convocation->id)->delete();
@@ -90,7 +91,7 @@ class ConvocationRepository
     {
         $convocation = Convocation::where('id', $id)->first();
         $convocation->delete();
-        return $convocation;    
+        return $convocation;
     }
 
 

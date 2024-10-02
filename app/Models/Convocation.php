@@ -44,6 +44,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Convocation whereTeam($value)
  * @property boolean|null $is_cacher
  * @property int|null $responsable_id
+ * @property string|null $texte
  * @mixin \Eloquent
  */
 class Convocation extends Model
