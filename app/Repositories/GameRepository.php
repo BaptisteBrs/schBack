@@ -134,4 +134,51 @@ class GameRepository
         }
         return $result;
     }
+
+
+    public function allNext()
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api-dofa.fff.fr/api/clubs/1417/matchs?ma_dat%5Bbefore%5D=2024-02-04&ma_dat%5Bafter%5D=2024-01-29&page=1',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $response = curl_exec($curl);
+        $result = json_decode($response, true);
+
+        $team = Team::all();
+        $res = [];
+
+        foreach ($result['hydra:member'] as $gameApi) {
+            $game = new Game();
+            $game->date = $gameApi['date'];
+            $game->place = $gameApi['terrain']['city'];
+            $game->opponent = !str_contains($gameApi['home']['short_name'], 'HERBIGNAC') ? $gameApi['home']['short_name'] : $gameApi['away']['short_name'];
+            $game->sch_goals = 0;
+            $game->opponent_goals = 0;
+            $game->is_home = !str_contains($gameApi['home']['short_name'], 'HERBIGNAC') ? false : true;
+            $game->is_finish = false;
+            $game->is_win =  null;
+            $game->is_lose = null;
+            $game->is_draw =  null;
+            $game->team = null;
+            $game->hour = $gameApi['time'];
+            $game->idApi = $gameApi['@id'];
+            $game->opponentLogo = !str_contains($gameApi['home']['short_name'], 'HERBIGNAC') ? $gameApi['home']['club']['logo'] : $gameApi['away']['club']['logo'];
+            $game->schLogo = !str_contains($gameApi['home']['short_name'], 'HERBIGNAC') ? $gameApi['away']['club']['logo'] : $gameApi['home']['club']['logo'];
+
+
+            array_push($res, $game);
+        }
+
+        return $team;
+    }
 }

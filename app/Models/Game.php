@@ -27,6 +27,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property bool|null $is_lose
  * @property bool|null $is_draw
  * @property int $category
+ * @property string|null $idApi
+ * @property string|null $opponentLogo
+ * @property string|null $schLogo
  * @method static \Illuminate\Database\Eloquent\Builder|Game newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Game newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Game query()

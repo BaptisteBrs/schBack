@@ -2,33 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\GameRepository;
+use App\Repositories\PefRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Upload;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 
-class GameController extends Controller
+class PefController extends Controller
 {
 
-    private GameRepository $repo;
+    private PefRepository $repo;
+    private  String $folder  = 'pef';
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('next', 'last','index','allNext');
-        $this->repo = new GameRepository();
+        $this->middleware('auth:sanctum')->except('index', 'last', 'show');
+        $this->repo = new PefRepository();
     }
 
     /**
-
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        if (Auth::user()->can('view_games')) {
-            return $this->repo->all();
-        }
-        return abort(403);
+        return $this->repo->all();
     }
 
 
@@ -40,7 +40,8 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->can('store_games')) {
+        if (Auth::user()->can('store_articles')) {
+
             $array = $request->all();
             return $this->repo->store($array);
         }
@@ -55,11 +56,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        if (Auth::user()->can('view_games')) {
-
-            return $this->repo->show($id);
-        }
-        return abort(403);
+        return $this->repo->show($id);
     }
 
     /**
@@ -71,11 +68,10 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->can('update_games')) {
+        if (Auth::user()->can('update_articles')) {
 
             $array = $request->all();
-            $game =  $this->repo->update($array, $id);
-            return $game;
+            return $this->repo->update($array, $id);
         }
         return abort(403);
     }
@@ -88,43 +84,43 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->can('delete_games')) {
-
+        if (Auth::user()->can('delete_articles')) {
             return $this->repo->delete($id);
         }
         return abort(403);
     }
 
-
     /**
-     * Function that return next match for all teams
-     */
-    public function next()
-    {
-        return $this->repo->next();
-    }
-
-    /**
-     * Function that return last match for all teams
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function last()
     {
         return $this->repo->last();
     }
 
+
     /**
-     * Function that return not finished games
+     * Save file image
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function allNotFinish()
+    public function uploadFile(Request $request)
     {
-        return $this->repo->allNotFinish();
+        if (Auth::user()->can('store_articles')) {
+            return $this->upload($request->file('picture'), $this->folder);
+        }
+        return abort(403);
     }
 
-     /**
-     * Function that return not finished games
-     */
-    public function allNext()
+
+
+    public function upload(UploadedFile $file, string $folder)
     {
-        return $this->repo->allNext();
+        $storagePath =  Storage::disk('public')->put('images/' . $folder, $file,);
+        return 'storage/' . $storagePath;
     }
 }
