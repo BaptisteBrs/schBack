@@ -9,6 +9,7 @@ use App\Http\Controllers\ConvocationController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GameTypeController;
 use App\Http\Controllers\PartenaireController;
+use App\Http\Controllers\PefController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
@@ -38,6 +39,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('articles', ArticleController::class);
     Route::post('articles/upload', [ArticleController::class, 'uploadFile'])->name('article-upload');
+    Route::resource('pef', PefController::class);
+    Route::post('pef/upload', [PefController::class, 'uploadFile'])->name('pef-upload');
     Route::get('teams/without/{date}', [TeamController::class, 'noGameTeams']);
     Route::get('teams/withoutForGames/{date}', [TeamController::class, 'noGameTeamsForGames']);
     Route::resource('teams', TeamController::class);
