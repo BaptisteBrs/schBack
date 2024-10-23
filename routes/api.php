@@ -75,6 +75,7 @@ Route::get('public/partenaires', [PartenaireController::class, 'index'])->name('
 Route::get('public/organigramme', [UserController::class, 'organigramme'])->name('organigramme');
 Route::get('public/convocations/{id}/{code}', [ConvocationController::class, 'lastByCategory'])->name('convocationsByCategory');
 Route::get('public/articles', [ArticleController::class, 'index'])->name('articles');
+Route::get('public/pefs', [PefController::class, 'index'])->name('pefs');
 Route::get('public/articles/details/{id}', [ArticleController::class, 'show'])->name('articles_show');
 Route::get('public/articles/last', [ArticleController::class, 'last'])->name('last_articles');
 Route::get('public/article_types', [ArticleTypeController::class, 'index'])->name('article_types');
