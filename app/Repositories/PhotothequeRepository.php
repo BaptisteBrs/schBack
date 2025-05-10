@@ -42,11 +42,6 @@ class PhotothequeRepository
 
                 $image = $manager->read($imageFile->getPathname());
 
-                // $image->resize(1200, null, function ($constraint) {
-                //     $constraint->aspectRatio();
-                //     $constraint->upsize();
-                // });
-
                 $imageBinary = $image->toJpeg(75); // compression à 75%
 
                 // Enregistrement

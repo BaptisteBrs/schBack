@@ -87,4 +87,5 @@ Route::prefix('public/phototheques')->group(function () {
     Route::get('/', [PhotothequeController::class, 'index']);
     Route::get('{id}', [PhotothequeController::class, 'show']);
     Route::post('/', [PhotothequeController::class, 'store']);
+    Route::post('/role', [PhotothequeController::class, 'addRoles']);
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\PhotothequeRepository;
+use Bouncer;
 use Illuminate\Http\Request;
 
 class PhotothequeController extends Controller
@@ -36,5 +37,14 @@ class PhotothequeController extends Controller
         $phototheque = $this->photothequeRepo->create($request);
 
         return response()->json(['success' => true, 'phototheque' => $phototheque]);
+    }
+
+    public function addRoles()
+    {
+        Bouncer::ability()->firstOrCreate([
+            'name' => 'store_galerie',
+            'title' => 'Ajouter de galerief'
+        ]);
+        Bouncer::allow('admin')->to('store_galerie');
     }
 }
