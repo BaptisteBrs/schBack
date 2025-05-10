@@ -31,6 +31,7 @@ class PhotothequeRepository
             'sous_titre' => $request->sous_titre,
             'date' => $request->date,
         ]);
+        $imageCouvertureIndex = intval($request->input('image_couverture_index', 0)); // défaut à 0
 
         $images = $request->file('images');
         if ($images && count($images) > 0) {
@@ -49,7 +50,7 @@ class PhotothequeRepository
 
                 $phototheque->images()->create(['image_path' => $path]);
 
-                if ($index === 0) {
+                if ($index === $imageCouvertureIndex) {
                     $phototheque->update(['image_couverture' => $path]);
                 }
             }
