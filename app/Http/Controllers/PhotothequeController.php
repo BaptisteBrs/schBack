@@ -28,7 +28,7 @@ class PhotothequeController extends Controller
     {
         $request->validate([
             'titre' => 'required|string',
-            'type_evenement' => 'required|string',
+            'sos_titre' => 'string',
             'date' => 'required|date',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
