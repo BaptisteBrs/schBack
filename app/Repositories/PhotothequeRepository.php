@@ -47,7 +47,7 @@ class PhotothequeRepository
                 //     $constraint->upsize();
                 // });
 
-                $imageBinary = $image->toJpeg(85); // compression à 75%
+                $imageBinary = $image->toJpeg(75); // compression à 75%
 
                 // Enregistrement
                 Storage::disk('public')->put($path, $imageBinary);
