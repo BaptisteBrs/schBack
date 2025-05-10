@@ -27,12 +27,7 @@ class PhotothequeController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'titre' => 'required|string',
-        //     'sous_titre' => 'string',
-        //     'date' => 'required|date',
-        //     'images.*' => 'image|mimes:jpeg,png,jpg|max:2048'
-        // ]);
+
 
         $phototheque = $this->photothequeRepo->create($request);
 
@@ -46,5 +41,11 @@ class PhotothequeController extends Controller
             'title' => 'Ajouter de galerief'
         ]);
         Bouncer::allow('admin')->to('store_galerie');
+    }
+
+
+    public function destroy(int $id)
+    {
+        return $this->photothequeRepo->destroy($id);
     }
 }

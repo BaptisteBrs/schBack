@@ -62,6 +62,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
+    Route::prefix('phototheques')->group(function () {
+        Route::post('/', [PhotothequeController::class, 'store']);
+        Route::delete('/{id}', [PhotothequeController::class, 'destroy']);
+    });
 });
 
 Route::post('public/check', [UserController::class, 'checkToken'])->name('checkToken');
@@ -86,6 +90,4 @@ Route::post('public/boutique/download', [BoutiqueController::class, 'downloadBon
 Route::prefix('public/phototheques')->group(function () {
     Route::get('/', [PhotothequeController::class, 'index']);
     Route::get('{id}', [PhotothequeController::class, 'show']);
-    Route::post('/', [PhotothequeController::class, 'store']);
-    Route::post('/role', [PhotothequeController::class, 'addRoles']);
 });

@@ -57,4 +57,28 @@ class PhotothequeRepository
 
         return $phototheque->load('images');
     }
+
+    public function destroy($id)
+    {
+        $phototheque = Phototheque::with('images')->findOrFail($id);
+
+        // Supprimer les fichiers des images
+        foreach ($phototheque->images as $image) {
+            if (Storage::disk('public')->exists($image->image_path)) {
+                Storage::disk('public')->delete($image->image_path);
+            }
+        }
+
+        // Supprimer le dossier complet si besoin
+        $directory = 'phototheques/' . $phototheque->id;
+        if (Storage::disk('public')->exists($directory)) {
+            Storage::disk('public')->deleteDirectory($directory);
+        }
+
+        // Supprimer les enregistrements en base
+        $phototheque->images()->delete(); // si relation hasMany
+        $phototheque->delete();
+
+        return response()->json(['message' => 'Photothèque supprimée.']);
+    }
 }
