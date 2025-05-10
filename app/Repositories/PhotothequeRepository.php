@@ -40,7 +40,7 @@ class PhotothequeRepository
                 $filename = uniqid() . '.jpg';
                 $path = 'images/phototheques/' . $phototheque->id . '/' . $filename;
 
-                $image = $manager->read($imageFile->getPathname());
+                $image = $manager->fromFile($imageFile->getPathname());
 
                 $image->resize(1200, null, function ($constraint) {
                     $constraint->aspectRatio();
