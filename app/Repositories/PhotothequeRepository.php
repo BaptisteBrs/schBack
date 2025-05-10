@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Phototheque;
-use App\Models\PhotothequeImages;
 use Illuminate\Http\Request;
 use Storage;
+use Intervention\Image\ImageManager;
+
 
 /**
  * Class PermissionRepository.
@@ -33,16 +34,24 @@ class PhotothequeRepository
 
         $images = $request->file('images');
         if ($images && count($images) > 0) {
+            $manager = new ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+
             foreach ($images as $index => $imageFile) {
                 $filename = uniqid() . '.jpg';
                 $path = 'phototheques/' . $phototheque->id . '/' . $filename;
 
-                $img = PhotothequeImages::make($imageFile)->resize(1200, null, function ($constraint) {
+                $image = $manager->read($imageFile->getPathname());
+
+                $image->resize(1200, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
-                })->encode('jpg', 75);
+                });
 
-                Storage::disk('public')->put($path, $img);
+                $imageBinary = $image->toJpeg(75); // compression à 75%
+
+                // Enregistrement
+                Storage::disk('public')->put($path, $imageBinary);
+
                 $phototheque->images()->create(['image_path' => $path]);
 
                 if ($index === 0) {
