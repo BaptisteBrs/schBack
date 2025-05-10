@@ -65,6 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('phototheques')->group(function () {
         Route::post('/', [PhotothequeController::class, 'store']);
         Route::delete('/{id}', [PhotothequeController::class, 'destroy']);
+        Route::put('/{id}', [PhotothequeController::class, 'update']);
     });
 });
 

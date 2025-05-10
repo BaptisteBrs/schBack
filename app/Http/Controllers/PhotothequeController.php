@@ -27,9 +27,14 @@ class PhotothequeController extends Controller
 
     public function store(Request $request)
     {
-
-
         $phototheque = $this->photothequeRepo->create($request);
+
+        return response()->json(['success' => true, 'phototheque' => $phototheque]);
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $phototheque = $this->photothequeRepo->update($request, $id);
 
         return response()->json(['success' => true, 'phototheque' => $phototheque]);
     }
