@@ -38,7 +38,7 @@ class PhotothequeRepository
 
             foreach ($images as $index => $imageFile) {
                 $filename = uniqid() . '.jpg';
-                $path = 'phototheques/' . $phototheque->id . '/' . $filename;
+                $path = 'images/phototheques/' . $phototheque->id . '/' . $filename;
 
                 $image = $manager->read($imageFile->getPathname());
 
