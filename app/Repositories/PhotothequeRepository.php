@@ -40,14 +40,14 @@ class PhotothequeRepository
                 $filename = uniqid() . '.jpg';
                 $path = 'images/phototheques/' . $phototheque->id . '/' . $filename;
 
-                $image = $manager->fromFile($imageFile->getPathname());
+                $image = $manager->read($imageFile->getPathname());
 
                 $image->resize(1200, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
 
-                $imageBinary = $image->toJpeg(75); // compression à 75%
+                $imageBinary = $image->toJpeg(85); // compression à 75%
 
                 // Enregistrement
                 Storage::disk('public')->put($path, $imageBinary);
