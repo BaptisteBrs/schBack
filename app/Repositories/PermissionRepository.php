@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Permissions;
+use App\Models\Role;
 
 /**
  * Class PermissionRepository.

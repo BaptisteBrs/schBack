@@ -11,6 +11,7 @@ use App\Http\Controllers\GameTypeController;
 use App\Http\Controllers\PartenaireController;
 use App\Http\Controllers\PefController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PhotothequeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TeamController;
@@ -82,3 +83,8 @@ Route::get('public/articles/last', [ArticleController::class, 'last'])->name('la
 Route::get('public/article_types', [ArticleTypeController::class, 'index'])->name('article_types');
 Route::get('public/tags', [TagController::class, 'index'])->name('tags');
 Route::post('public/boutique/download', [BoutiqueController::class, 'downloadBonCommande'])->name('downloadBonCommande');
+Route::prefix('public/phototheques')->group(function () {
+    Route::get('/', [PhotothequeController::class, 'index']);
+    Route::get('{id}', [PhotothequeController::class, 'show']);
+    Route::post('/', [PhotothequeController::class, 'store']);
+});
