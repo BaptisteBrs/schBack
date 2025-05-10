@@ -27,7 +27,7 @@ class PhotothequeRepository
     {
         $phototheque = Phototheque::create([
             'titre' => $request->titre,
-            'type_evenement' => $request->type_evenement,
+            'sous_titre' => $request->sous_titre,
             'date' => $request->date,
         ]);
 
